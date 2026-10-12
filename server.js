@@ -343,7 +343,7 @@ app.post('/api/users/:id/change-password', (req, res) => {
 
 app.get('/api/test', (req, res) => res.json({ success: true, message: 'MoonStar API' }));
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log('===========================================');
   console.log('  MoonStar Server Started');
   console.log('  URL: http://localhost:' + PORT);
