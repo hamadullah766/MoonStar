@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - MoonStar</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+body{background:linear-gradient(135deg,#8FA8C0 0%,#A8BDD1 50%,#8FA8C0 100%);min-height:100vh;color:#1E293B;padding:20px 20px 80px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;background:#FFF;padding:14px 20px;border-radius:16px;box-shadow:0 8px 25px rgba(30,41,59,0.08)}
+.header-left{display:flex;align-items:center;gap:10px}
+.logo-c{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#DC2626,#991B1B);display:flex;align-items:center;justify-content:center}
+.logo-c svg{width:20px;height:20px}
+.logo-t{font-size:18px;font-weight:900;color:#0F2847}
+.badge{padding:5px 12px;background:#FEE2E2;border:1px solid #FECACA;border-radius:50px;font-size:10px;font-weight:800;color:#DC2626}
+.refresh{padding:8px 14px;border-radius:50px;background:linear-gradient(135deg,#DC2626,#991B1B);border:none;color:#FFF;font-size:11px;font-weight:800;font-family:'Inter',sans-serif;cursor:pointer;margin-right:8px}
+.container{max-width:800px;margin:0 auto}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.stat{background:#FFF;border-radius:14px;padding:16px;box-shadow:0 8px 25px rgba(30,41,59,0.06)}
+.stat-v{font-size:24px;font-weight:900;color:#0F2847;line-height:1;margin-bottom:4px}
+.stat-l{font-size:9px;color:#64748B;font-weight:800;letter-spacing:1px;text-transform:uppercase}
+.tabs{display:flex;gap:6px;background:#FFF;border-radius:12px;padding:6px;margin-bottom:14px;overflow-x:auto;box-shadow:0 8px 25px rgba(30,41,59,0.06)}
+.tab{padding:9px 14px;border-radius:9px;font-size:11px;font-weight:800;color:#64748B;cursor:pointer;white-space:nowrap;border:none;background:transparent;font-family:'Inter',sans-serif}
+.tab.active{background:linear-gradient(135deg,#DC2626,#991B1B);color:#FFF}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.card{background:#FFF;border-radius:16px;padding:18px;margin-bottom:12px;box-shadow:0 8px 25px rgba(30,41,59,0.06)}
+.card-t{font-size:11px;font-weight:800;color:#64748B;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.card-t .cnt{font-size:10px;font-weight:900;color:#DC2626;background:#FEE2E2;padding:3px 9px;border-radius:50px}
+.item{border:1.5px solid #F1F5F9;border-radius:12px;padding:14px;margin-bottom:10px}
+.item-h{display:flex;justify-content:space-between;gap:10px}
+.item-n{font-size:13px;font-weight:800;color:#0F2847;margin-bottom:4px}
+.item-d{font-size:11px;color:#64748B;line-height:1.5;font-weight:500}
+.item-d strong{color:#0F2847;font-weight:800}
+.item-r{font-size:15px;font-weight:900;color:#DC2626;text-align:right}
+.bdg{padding:3px 9px;border-radius:50px;font-size:9px;font-weight:800;text-transform:uppercase}
+.bdg.pending{background:#FEF3C7;color:#D97706}
+.bdg.approved,.bdg.verified{background:#D1FAE5;color:#059669}
+.bdg.rejected{background:#FEE2E2;color:#DC2626}
+.acts{display:flex;gap:8px;margin-top:10px}
+.btn-a,.btn-r{padding:9px 14px;border-radius:9px;border:none;font-size:11px;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;flex:1}
+.btn-a{background:linear-gradient(135deg,#10B981,#059669);color:#FFF}
+.btn-r{background:#FEE2E2;color:#DC2626;border:1.5px solid #FECACA}
+.user{display:flex;align-items:center;gap:10px;padding:12px;border:1.5px solid #F1F5F9;border-radius:12px;margin-bottom:8px;cursor:pointer}
+.user:hover{border-color:#FECACA;background:#FEF9F9}
+.u-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#DC2626,#991B1B);display:flex;align-items:center;justify-content:center;font-weight:900;color:#FFF;font-size:14px;flex-shrink:0}
+.u-i{flex:1;min-width:0}
+.u-n{font-size:12px;font-weight:800;color:#0F2847;margin-bottom:2px}
+.u-e{font-size:10px;color:#64748B;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.u-b{font-size:13px;font-weight:900;color:#DC2626;flex-shrink:0}
+.u-s{padding:3px 8px;border-radius:50px;font-size:8px;font-weight:800;text-transform:uppercase}
+.u-s.active{background:#D1FAE5;color:#059669}
+.u-s.blocked{background:#FEE2E2;color:#DC2626}
+.empty{text-align:center;padding:24px 16px;color:#94A3B8;font-size:12px;font-weight:500}
+.search{margin-bottom:12px}
+.search input{width:100%;padding:11px 14px;background:#F8FAFC;border:1.5px solid #E2E8F0;border-radius:10px;color:#0F2847;font-size:12px;outline:none;font-family:'Inter',sans-serif;font-weight:600}
+.search input:focus{border-color:#DC2626}
+.shot{width:56px;height:56px;border-radius:9px;object-fit:cover;border:1.5px solid #FECACA;cursor:pointer}
+.act-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #F1F5F9}
+.act-item:last-child{border-bottom:none}
+.act-dot{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.act-dot svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+.act-dot.signup{background:#DBEAFE;color:#2563EB}
+.act-dot.withdraw{background:#FEE2E2;color:#DC2626}
+.act-dot.donation{background:#FEF3C7;color:#D97706}
+.act-dot.photo{background:#F3E8FF;color:#9333EA}
+.act-t{flex:1;font-size:11px;color:#475569;line-height:1.5;font-weight:500}
+.act-t strong{color:#0F2847;font-weight:800}
+.act-time{font-size:9px;color:#94A3B8;font-weight:600;margin-top:2px}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,0.85);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:16px;z-index:1000}
+.modal.show{display:flex}
+.modal-box{background:#FFF;border-radius:20px;padding:22px;width:100%;max-width:420px;max-height:90vh;overflow-y:auto}
+.modal-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.modal-ttl{font-size:16px;font-weight:900;color:#0F2847}
+.modal-x{width:30px;height:30px;border-radius:9px;background:#F1F5F9;border:none;cursor:pointer;font-size:16px;color:#64748B;font-family:'Inter',sans-serif;font-weight:800}
+.d-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F1F5F9;gap:10px}
+.d-row:last-child{border-bottom:none}
+.d-l{font-size:10px;color:#94A3B8;font-weight:800;text-transform:uppercase}
+.d-v{font-size:12px;color:#0F2847;font-weight:800;text-align:right;word-break:break-all}
+.d-act{display:flex;gap:8px;margin-top:16px}
+.d-btn{flex:1;padding:12px;border-radius:10px;border:none;font-size:12px;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif}
+.d-btn.ban{background:#FEE2E2;color:#DC2626;border:1.5px solid #FECACA}
+.d-btn.unban{background:linear-gradient(135deg,#10B981,#059669);color:#FFF}
+.stat-icon{width:36px;height:36px;border-radius:10px;background:#FEE2E2;display:flex;align-items:center;justify-content:center;margin-bottom:10px;overflow:hidden}.stat-icon svg{width:16px;height:16px;max-width:16px;max-height:16px;stroke:#DC2626;fill:none;stroke-width:2}</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<div class="header-left">
+<div class="logo-c"><svg viewBox="0 0 100 100"><path d="M55 20 A32 32 0 1 0 55 80 A25 25 0 1 1 55 20 Z" fill="#FFF"/><polygon points="65,32 69,45 82,45 72,53 75,66 65,58 55,66 58,53 48,45 61,45" fill="#FFF"/></svg></div>
+<div class="logo-t">MoonStar</div>
+</div>
+<div style="display:flex;align-items:center">
+<button class="refresh" onclick="refreshAll()">Refresh</button>
+<div class="badge">Admin</div>
+</div>
+</div>
+
+<div class="stats">
+<div class="stat"><div class="stat-icon"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="stat-v" id="totalUsers">0</div><div class="stat-l">Total Users</div></div>
+<div class="stat"><div class="stat-icon"><svg viewBox="0 0 24 24" width="16" height="16"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div><div class="stat-v" id="totalWithdrawals">0</div><div class="stat-l">Total Withdrawals</div></div>
+<div class="stat"><div class="stat-icon"><svg viewBox="0 0 24 24" width="16" height="16"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div><div class="stat-v" id="pendingWithdraws">0</div><div class="stat-l">Pending Withdraws</div></div>
+<div class="stat"><div class="stat-icon"><svg viewBox="0 0 24 24" width="16" height="16"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/></svg></div><div class="stat-v" id="pendingDonations">0</div><div class="stat-l">Pending Donations</div></div>
+</div><div class="stat-l">Total Users</div></div>
+<div class="stat"><div class="stat-v" id="totalWithdrawals">0</div><div class="stat-l">Total Withdrawals</div></div>
+<div class="stat"><div class="stat-v" id="pendingWithdraws">0</div><div class="stat-l">Pending Withdraws</div></div>
+<div class="stat"><div class="stat-v" id="pendingDonations">0</div><div class="stat-l">Pending Donations</div></div>
+</div>
+
+<div class="tabs">
+<button class="tab active" onclick="switchTab('activity',this)">Activity</button>
+<button class="tab" onclick="switchTab('withdrawals',this)">Withdrawals</button>
+<button class="tab" onclick="switchTab('donations',this)">Donations</button>
+<button class="tab" onclick="switchTab('photos',this)">Photos</button>
+<button class="tab" onclick="switchTab('users',this)">Users</button>
+</div>
+
+<div class="tab-content active" id="tab-activity"><div class="card"><div class="card-t">Recent Activity <span class="cnt" id="activityCount">0</span></div><div id="activityList"></div></div></div>
+<div class="tab-content" id="tab-withdrawals"><div class="card"><div class="card-t">Pending Withdrawals <span class="cnt" id="withdrawCount">0</span></div><div id="withdrawalsList"></div></div></div>
+<div class="tab-content" id="tab-donations"><div class="card"><div class="card-t">Pending Donations <span class="cnt" id="donationCount">0</span></div><div id="donationsList"></div></div></div>
+<div class="tab-content" id="tab-photos"><div class="card"><div class="card-t">Pending Photos <span class="cnt" id="photoCount">0</span></div><div id="photosList"></div></div></div>
+<div class="tab-content" id="tab-users"><div class="card"><div class="card-t">All Users <span class="cnt" id="usersCount">0</span></div><div class="search"><input type="text" id="userSearch" placeholder="Search..." oninput="renderUsers()"></div><div id="usersList"></div></div></div>
+</div>
+
+<div class="modal" id="imgModal" onclick="if(event.target===this)this.classList.remove('show')"><img id="modalImg" src="" style="max-width:100%;max-height:90vh;border-radius:14px"></div>
+<div class="modal" id="userModal" onclick="if(event.target===this)closeUser()"><div class="modal-box" id="userBox"></div></div>
+<script>
+var CACHE = { users: [], withdrawals: [], donations: [], photos: [] };
+
+function switchTab(n,el){document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});el.classList.add('active');document.querySelectorAll('.tab-content').forEach(function(c){c.classList.remove('active')});document.getElementById('tab-'+n).classList.add('active');refreshAll()}
+function showShot(s){document.getElementById('modalImg').src=s;document.getElementById('imgModal').classList.add('show')}
+
+async function api(url, method, body) {
+  try {
+    var opts = { method: method || 'GET', headers: { 'Content-Type': 'application/json' } };
+    if (body) opts.body = JSON.stringify(body);
+    var res = await fetch(url, opts);
+    return await res.json();
+  } catch(e) { console.error(e); return null; }
+}
+
+async function loadAll() {
+  var u = await api('/api/users');
+  var w = await api('/api/withdrawals');
+  var d = await api('/api/donations');
+  var p = await api('/api/photos');
+  CACHE.users = u || [];
+  CACHE.withdrawals = w || [];
+  CACHE.donations = d || [];
+  CACHE.photos = p || [];
+}
+
+function renderActivity() {
+  var f = [];
+  CACHE.users.forEach(function(u){ if(u.createdAt) f.push({t:'signup',txt:'<strong>'+(u.fullName||'User')+'</strong> signed up',time:u.createdAt}) });
+  CACHE.withdrawals.forEach(function(x){ f.push({t:'withdraw',txt:'<strong>'+x.userName+'</strong> - '+x.status+' - Rs '+x.amount+' via '+x.method,time:x.createdAt}) });
+  CACHE.donations.forEach(function(x){ f.push({t:'donation',txt:'<strong>'+x.senderName+'</strong> - '+x.status,time:x.createdAt}) });
+  CACHE.photos.forEach(function(x){ f.push({t:'photo',txt:'<strong>'+x.senderName+'</strong> - '+x.status,time:x.createdAt}) });
+  f.sort(function(a,b){return new Date(b.time)-new Date(a.time)});
+  document.getElementById('activityCount').textContent = f.length;
+  var el = document.getElementById('activityList');
+  if(!f.length){ el.innerHTML='<div class="empty">No activity yet</div>'; return; }
+  var ic = {signup:'<svg viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg>',withdraw:'<svg viewBox="0 0 24 24" width="16" height="16"><rect x="2" y="6" width="20" height="14" rx="2"/></svg>',donation:'<svg viewBox="0 0 24 24" width="16" height="16"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/></svg>',photo:'<svg viewBox="0 0 24 24" width="16" height="16"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/></svg>'};
+  el.innerHTML = '';
+  f.slice(0,50).forEach(function(x){ el.innerHTML += '<div class="act-item"><div class="act-dot '+x.t+'">'+ic[x.t]+'</div><div style="flex:1"><div class="act-t">'+x.txt+'</div><div class="act-time">'+new Date(x.time).toLocaleString()+'</div></div></div>' });
+}
+
+function renderWithdrawals() {
+  var l = CACHE.withdrawals.filter(function(w){return w.status==='pending'});
+  var el = document.getElementById('withdrawalsList');
+  document.getElementById('withdrawCount').textContent = l.length;
+  document.getElementById('pendingWithdraws').textContent = l.length;
+  if(!l.length){ el.innerHTML='<div class="empty">No pending withdrawals</div>'; return; }
+  el.innerHTML = '';
+  l.slice().reverse().forEach(function(w){
+    el.innerHTML += '<div class="item"><div class="item-h"><div><div class="item-n">'+w.userName+'</div><div class="item-d"><strong>'+w.method+'</strong> - '+w.accountName+'<br>Acc: <strong>'+w.accountNumber+'</strong><br>'+new Date(w.createdAt).toLocaleString()+'</div></div><div style="text-align:right"><div class="item-r">Rs '+w.amount+'</div><div class="bdg pending" style="margin-top:6px;display:inline-block">Pending</div></div></div><div class="acts"><button class="btn-a" onclick="appW(\''+w.id+'\')">Approve</button><button class="btn-r" onclick="rejW(\''+w.id+'\')">Reject</button></div></div>';
+  });
+}
+
+async function appW(id) {
+  var r = await api('/api/withdrawals/'+id+'/update', 'POST', { status: 'approved' });
+  if(r && r.success){ alert('Approved!'); refreshAll(); }
+}
+async function rejW(id) {
+  var r = await api('/api/withdrawals/'+id+'/update', 'POST', { status: 'rejected' });
+  if(r && r.success){ alert('Rejected and refunded!'); refreshAll(); }
+}
+
+function renderDonations() {
+  var l = CACHE.donations.filter(function(d){return d.status==='pending'});
+  var el = document.getElementById('donationsList');
+  document.getElementById('donationCount').textContent = l.length;
+  document.getElementById('pendingDonations').textContent = l.length;
+  if(!l.length){ el.innerHTML='<div class="empty">No pending donations</div>'; return; }
+  el.innerHTML = '';
+  l.slice().reverse().forEach(function(d){
+    var sh = d.screenshot ? '<img src="'+d.screenshot+'" class="shot" onclick="showShot(this.src)">' : '';
+    el.innerHTML += '<div class="item"><div class="item-h"><div><div class="item-n">'+d.senderName+'</div><div class="item-d">Num: <strong>'+d.senderNumber+'</strong><br>From: '+d.userName+'<br>'+new Date(d.createdAt).toLocaleString()+'</div></div><div style="text-align:right">'+sh+'<div class="bdg pending" style="margin-top:6px;display:inline-block">Pending</div></div></div><div class="acts"><button class="btn-a" onclick="verD(\''+d.id+'\')">Verify</button><button class="btn-r" onclick="rejD(\''+d.id+'\')">Reject</button></div></div>';
+  });
+}
+
+async function verD(id) {
+  var r = await api('/api/donations/'+id+'/update', 'POST', { status: 'verified' });
+  if(r && r.success){ alert('Verified!'); refreshAll(); }
+}
+async function rejD(id) {
+  var r = await api('/api/donations/'+id+'/update', 'POST', { status: 'rejected' });
+  if(r && r.success){ alert('Rejected!'); refreshAll(); }
+}
+
+function renderPhotos() {
+  var l = CACHE.photos.filter(function(p){return p.status==='pending'});
+  var el = document.getElementById('photosList');
+  document.getElementById('photoCount').textContent = l.length;
+  if(!l.length){ el.innerHTML='<div class="empty">No pending photo requests</div>'; return; }
+  el.innerHTML = '';
+  l.slice().reverse().forEach(function(p){
+    var sh = p.screenshot ? '<img src="'+p.screenshot+'" class="shot" onclick="showShot(this.src)">' : '';
+    el.innerHTML += '<div class="item"><div class="item-h"><div><div class="item-n">'+p.senderName+'</div><div class="item-d">Num: <strong>'+p.senderNumber+'</strong><br>User: '+p.userName+'<br>'+new Date(p.createdAt).toLocaleString()+'</div></div><div style="text-align:right">'+sh+'<div class="bdg pending" style="margin-top:6px;display:inline-block">Pending</div></div></div><div class="acts"><button class="btn-a" onclick="appP(\''+p.id+'\')">Approve</button><button class="btn-r" onclick="rejP(\''+p.id+'\')">Reject</button></div></div>';
+  });
+}
+
+async function appP(id) {
+  var r = await api('/api/photos/'+id+'/update', 'POST', { status: 'approved' });
+  if(r && r.success){ alert('Photo approved! User can now upload photo.'); refreshAll(); }
+}
+async function rejP(id) {
+  var r = await api('/api/photos/'+id+'/update', 'POST', { status: 'rejected' });
+  if(r && r.success){ alert('Rejected!'); refreshAll(); }
+}
+
+function renderUsers() {
+  var s = (document.getElementById('userSearch').value || '').toLowerCase();
+  var f = CACHE.users.filter(function(x){ return (x.fullName||'').toLowerCase().indexOf(s)>-1 || (x.email||'').toLowerCase().indexOf(s)>-1 || (x.phone||'').indexOf(s)>-1 });
+  document.getElementById('usersCount').textContent = CACHE.users.length;
+  document.getElementById('totalUsers').textContent = CACHE.users.length;
+  document.getElementById('totalWithdrawals').textContent = CACHE.withdrawals.length;
+  var el = document.getElementById('usersList');
+  if(!f.length){ el.innerHTML='<div class="empty">No users found</div>'; return; }
+  el.innerHTML = '';
+  f.forEach(function(x){
+    el.innerHTML += '<div class="user" onclick="showUser(\''+x.id+'\')"><div class="u-av">'+(x.fullName||'U').charAt(0).toUpperCase()+'</div><div class="u-i"><div class="u-n">'+(x.fullName||'User')+'</div><div class="u-e">'+(x.email||'-')+'</div></div><div class="u-b">Rs '+(x.balance||0)+'</div><div class="u-s '+(x.isBlocked?'blocked':'active')+'">'+(x.isBlocked?'Blocked':'Active')+'</div></div>';
+  });
+}
+
+function showUser(id) {
+  var user = CACHE.users.find(function(x){return String(x.id)===String(id)});
+  if(!user) return;
+  var badge = user.badge ? (user.badge.level || 'VIP 00') : 'VIP 00';
+  var box = document.getElementById('userBox');
+  box.innerHTML = '<div class="modal-h"><div class="modal-ttl">'+user.fullName+'</div><button class="modal-x" onclick="closeUser()">x</button></div>'+
+  '<div class="d-row"><div class="d-l">Email</div><div class="d-v">'+(user.email||'-')+'</div></div>'+
+  '<div class="d-row"><div class="d-l">Phone</div><div class="d-v">'+(user.phone||'-')+'</div></div>'+
+  '<div class="d-row"><div class="d-l">Balance</div><div class="d-v">Rs '+(user.balance||0)+'</div></div>'+
+  '<div class="d-row"><div class="d-l">Referral</div><div class="d-v">'+(user.referralCode||'-')+'</div></div>'+
+  '<div class="d-row"><div class="d-l">Badge</div><div class="d-v">'+badge+'</div></div>'+
+  '<div class="d-row"><div class="d-l">Donations</div><div class="d-v">'+(user.donationCount||0)+'</div></div>'+
+  '<div class="d-row"><div class="d-l">Ads Completed</div><div class="d-v">'+(user.adsCompleted||0)+'</div></div>'+
+  '<div class="d-row"><div class="d-l">Photo Unlocked</div><div class="d-v">'+(user.photoUnlocked?'YES':'NO')+'</div></div>'+
+  '<div class="d-row"><div class="d-l">Joined</div><div class="d-v">'+(user.createdAt?new Date(user.createdAt).toLocaleDateString():'-')+'</div></div>'+
+  '<div class="d-row"><div class="d-l">Status</div><div class="d-v">'+(user.isBlocked?'Blocked':'Active')+'</div></div>'+
+  '<div class="d-act"><button class="'+(user.isBlocked?'d-btn unban':'d-btn ban')+'" onclick="toggleBan(\''+id+'\')">'+(user.isBlocked?'Unban User':'Ban User')+'</button></div>';
+  var adjustBtn = '<div class="d-act" style="margin-top:6px"><button class="d-btn adjust" onclick="openAdjustment(\'' + id + '\')">💰 Adjust Balance</button></div>';
+  box.innerHTML += adjustBtn;
+  document.getElementById('userModal').classList.add('show');
+}
+function closeUser(){ document.getElementById('userModal').classList.remove('show') }
+async function toggleBan(id) {
+  var r = await api('/api/users/'+id+'/block', 'POST', {});
+  if(r && r.success){ alert(r.user.isBlocked?'User banned!':'User unbanned!'); refreshAll(); showUser(id); }
+}
+
+async function refreshAll() {
+  await loadAll();
+  renderActivity();
+  renderWithdrawals();
+  renderDonations();
+  renderPhotos();
+  renderUsers();
+}
+refreshAll();
+
+var adjustUserId = null;
+var adjustUserName = '';
+
+function openAdjustment(id) {
+  var user = CACHE.users.find(function(u) { return String(u.id) === String(id); });
+  if (!user) return;
+  adjustUserId = id;
+  adjustUserName = user.fullName || 'User';
+  document.getElementById('adjustUserName').textContent = adjustUserName;
+  document.getElementById('adjustCurrentBalance').textContent = 'Rs ' + (user.balance || 0);
+  document.getElementById('adjustAmount').value = '';
+  document.getElementById('adjustReason').value = '';
+  document.getElementById('adjustmentModal').classList.add('show');
+}
+
+function closeAdjustment() {
+  document.getElementById('adjustmentModal').classList.remove('show');
+  adjustUserId = null;
+}
+
+async function saveAdjustment() {
+  if (!adjustUserId) return;
+  var action = document.getElementById('adjustAction').value;
+  var amount = parseFloat(document.getElementById('adjustAmount').value);
+  var reason = document.getElementById('adjustReason').value.trim();
+  
+  if (!amount || amount <= 0) { alert('Enter valid amount'); return; }
+  
+  var user = CACHE.users.find(function(u) { return String(u.id) === String(adjustUserId); });
+  if (!user) return;
+  
+  var currentBalance = user.balance || 0;
+  var newBalance = currentBalance;
+  
+  if (action === 'add') newBalance = currentBalance + amount;
+  else if (action === 'subtract') newBalance = Math.max(0, currentBalance - amount);
+  else if (action === 'set') newBalance = amount;
+  
+  try {
+    var res = await fetch('/api/users/' + adjustUserId + '/update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        balance: newBalance,
+        lastAdjustment: {
+          action: action,
+          amount: amount,
+          reason: reason,
+          date: new Date().toISOString()
+        }
+      })
+    });
+    var result = await res.json();
+    if (result.success) {
+      alert('Balance adjusted! New: Rs ' + newBalance);
+      closeAdjustment();
+      closeUser();
+      refreshAll();
+    } else {
+      alert('Failed');
+    }
+  } catch(e) {
+    alert('Error: ' + e.message);
+  }
+}
+</script>
+
+<div class="modal" id="adjustmentModal" onclick="if(event.target===this)closeAdjustment()">
+<div class="modal-box">
+<div class="modal-header">
+<div class="modal-title">Adjust Balance</div>
+<button class="modal-close" onclick="closeAdjustment()">×</button>
+</div>
+<div class="modal-subtitle" id="adjustUserName">User</div>
+<div class="d-row"><div class="d-l">Current Balance</div><div class="d-v" id="adjustCurrentBalance">Rs 0</div></div>
+<div class="field">
+<label>Action</label>
+<select id="adjustAction" style="width:100%;padding:12px;border-radius:12px;border:1.5px solid #E2E8F0;font-family:Inter,sans-serif;font-weight:600">
+<option value="add">➕ Add Amount</option>
+<option value="subtract">➖ Subtract Amount</option>
+<option value="set">✏️ Set Exact Amount</option>
+</select>
+</div>
+<div class="field">
+<label>Amount (PKR)</label>
+<input type="number" id="adjustAmount" placeholder="Enter amount" min="0">
+</div>
+<div class="field">
+<label>Reason (optional)</label>
+<input type="text" id="adjustReason" placeholder="e.g. Bonus, Correction">
+</div>
+<button class="d-btn adjust" onclick="saveAdjustment()" style="width:100%;padding:14px;margin-top:8px">Save Adjustment</button>
+</div>
+</div>
+</body>
+</html>

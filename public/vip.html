@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIP - MoonStar</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+html,body{background:linear-gradient(135deg,#8FA8C0 0%,#A8BDD1 50%,#8FA8C0 100%);min-height:100vh}
+body{color:#1E293B;padding-bottom:130px;position:relative;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:40px 40px;z-index:0;pointer-events:none}
+
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.9);padding:14px 22px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 20px rgba(30,41,59,0.05)}
+.header-left{display:flex;align-items:center;gap:10px}
+.header-logo-circle{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#DC2626,#991B1B);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 15px rgba(220,38,38,0.3)}
+.header-logo-circle svg{width:22px;height:22px}
+.header-logo{font-size:20px;font-weight:900;color:#0F2847;letter-spacing:-0.8px}
+
+.container{position:relative;z-index:1;padding:20px;max-width:520px;margin:0 auto}
+
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.animate-in{animation:fadeSlideUp 0.6s cubic-bezier(0.16,1,0.3,1) both}
+.a1{animation-delay:0.05s}.a2{animation-delay:0.15s}.a3{animation-delay:0.25s}.a4{animation-delay:0.35s}
+
+/* VIP HERO */
+.vip-hero{background:linear-gradient(135deg,#DC2626 0%,#991B1B 100%);border-radius:24px;padding:30px 24px;margin-bottom:16px;position:relative;overflow:hidden;box-shadow:0 20px 50px rgba(220,38,38,0.3);color:white;text-align:center}
+.vip-hero::before{content:'';position:absolute;top:-60%;right:-20%;width:250px;height:250px;background:radial-gradient(circle,rgba(255,255,255,0.2) 0%,transparent 70%);border-radius:50%;animation:floatOrb 8s ease-in-out infinite}
+@keyframes floatOrb{0%,100%{transform:translate(0,0)}50%{transform:translate(-15px,15px)}}
+.crown-icon{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;position:relative;z-index:1}
+.crown-icon svg{width:40px;height:40px;fill:#FFFFFF}
+.vip-level{font-size:28px;font-weight:900;margin-bottom:6px;position:relative;z-index:1;letter-spacing:-1px}
+.vip-sub{font-size:13px;color:rgba(255,255,255,0.85);font-weight:500;position:relative;z-index:1}
+.vip-donations{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);border-radius:50px;font-size:11px;font-weight:800;color:white;letter-spacing:1px;margin-top:16px;position:relative;z-index:1;text-transform:uppercase}
+.vip-donations svg{width:13px;height:13px;fill:#FFFFFF}
+
+/* PROGRESS CARD */
+.progress-card{background:#FFFFFF;border:1.5px solid rgba(255,255,255,0.9);border-radius:18px;padding:20px;margin-bottom:16px;box-shadow:0 10px 30px rgba(30,41,59,0.08)}
+.progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.progress-title{font-size:12px;font-weight:800;color:#64748B;letter-spacing:1.5px;text-transform:uppercase}
+.progress-count{font-size:14px;font-weight:900;color:#DC2626}
+.progress-bar{height:10px;background:#F1F5F9;border-radius:10px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#DC2626,#B91C1C);border-radius:10px;transition:width 1s cubic-bezier(0.16,1,0.3,1);box-shadow:0 0 15px rgba(220,38,38,0.5)}
+.progress-hint{font-size:11px;color:#94A3B8;margin-top:10px;text-align:center;font-weight:600}
+
+/* LEVELS CARD */
+.levels-card{background:#FFFFFF;border:1.5px solid rgba(255,255,255,0.9);border-radius:18px;padding:20px;margin-bottom:16px;box-shadow:0 10px 30px rgba(30,41,59,0.08)}
+.card-title{font-size:11px;font-weight:800;color:#64748B;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px}
+.levels-list{display:flex;flex-direction:column;gap:8px}
+.level-item{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:12px;background:#F8FAFC;border:1.5px solid #F1F5F9;transition:all 0.3s}
+.level-item.current{background:linear-gradient(135deg,#FEF2F2,#FEE2E2);border-color:#FECACA}
+.level-item.locked{opacity:0.6}
+.level-left{display:flex;align-items:center;gap:12px}
+.level-badge{width:40px;height:40px;border-radius:12px;background:#FEE2E2;border:1px solid #FECACA;display:flex;align-items:center;justify-content:center;font-size:20px}
+.level-item.current .level-badge{background:linear-gradient(135deg,#DC2626,#991B1B);border-color:#DC2626}
+.level-item.current .level-badge span{filter:brightness(10)}
+.level-name{font-size:13px;font-weight:800;color:#0F2847;letter-spacing:-0.2px}
+.level-req{font-size:11px;color:#64748B;font-weight:500;margin-top:2px}
+.level-status{font-size:11px;font-weight:800;color:#DC2626;letter-spacing:0.5px;text-transform:uppercase}
+.level-item.locked .level-status{color:#94A3B8}
+
+/* DONATE CARD */
+.donate-card{background:#FFFFFF;border:1.5px solid #FECACA;border-radius:18px;padding:22px;margin-bottom:16px;box-shadow:0 10px 30px rgba(30,41,59,0.08);text-align:center}
+.donate-title{font-size:16px;font-weight:900;color:#0F2847;margin-bottom:8px;letter-spacing:-0.3px}
+.donate-desc{font-size:12px;color:#64748B;line-height:1.5;font-weight:500;margin-bottom:18px}
+.donate-btn{width:100%;padding:15px;background:linear-gradient(135deg,#DC2626,#B91C1C);color:white;border:none;border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 10px 25px rgba(220,38,38,0.3);letter-spacing:0.3px;transition:all 0.3s}
+.donate-btn:hover{transform:translateY(-2px);box-shadow:0 15px 35px rgba(220,38,38,0.5)}
+.donate-btn svg{width:18px;height:18px}
+
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:16px;left:16px;right:16px;background:#FFFFFF;border:1.5px solid rgba(255,255,255,0.9);border-radius:24px;display:flex;justify-content:space-around;align-items:center;padding:10px 8px;box-shadow:0 20px 50px rgba(30,41,59,0.2);z-index:200;animation:navSlideUp 0.6s cubic-bezier(0.16,1,0.3,1) both}
+@keyframes navSlideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:5px;color:#94A3B8;text-decoration:none;font-size:10px;font-weight:700;padding:4px 8px;transition:all 0.3s;flex:1;max-width:72px;letter-spacing:0.3px}
+.nav-item.active{color:#DC2626}
+.nav-icon-wrap{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;transition:all 0.3s}
+.nav-icon-wrap svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.nav-item.active .nav-icon-wrap{background:#FEE2E2;border:1px solid #FECACA}
+.nav-item.vip .nav-icon-wrap{background:linear-gradient(135deg,#DC2626,#991B1B);border-radius:50%;color:#FFFFFF;box-shadow:0 6px 15px rgba(220,38,38,0.4)}
+.nav-item.vip .nav-icon-wrap svg{fill:currentColor;stroke:none}
+</style>
+</head>
+<body>
+
+<div class="header">
+<div class="header-left">
+<div class="header-logo-circle">
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<path d="M55 20 A32 32 0 1 0 55 80 A25 25 0 1 1 55 20 Z" fill="#FFFFFF"/>
+<polygon points="65,32 69,45 82,45 72,53 75,66 65,58 55,66 58,53 48,45 61,45" fill="#FFFFFF"/>
+</svg>
+</div>
+<div class="header-logo">MoonStar</div>
+</div>
+</div>
+
+<div class="container">
+
+<!-- VIP HERO -->
+<div class="vip-hero animate-in a1">
+<div class="crown-icon">
+<svg viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+</div>
+<div class="vip-level" id="vipLevel">VIP 00</div>
+<div class="vip-sub" id="vipSub">Start donating to upgrade</div>
+<div class="vip-donations" id="vipDonations">
+<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+<span id="donationCount">0</span> Donations
+</div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-card animate-in a2">
+<div class="progress-header">
+<div class="progress-title">Next Level Progress</div>
+<div class="progress-count"><span id="progressCount">0</span> / 5</div>
+</div>
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+<div class="progress-hint" id="progressHint">2 more donations to unlock Bronze</div>
+</div>
+
+<!-- LEVELS -->
+<div class="levels-card animate-in a3">
+<div class="card-title">VIP Levels</div>
+<div class="levels-list" id="levelsList"></div>
+</div>
+
+<!-- DONATE -->
+<div class="donate-card animate-in a4">
+<div class="donate-title">Ready to become VIP?</div>
+<div class="donate-desc">Donate PKR 100 or more to unlock your VIP badge. Every 10 donations upgrade your level.</div>
+<button class="donate-btn" onclick="window.location.href='/donate'">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+Donate Now
+</button>
+</div>
+
+</div>
+
+<div class="bottom-nav">
+<a href="/dashboard" class="nav-item"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div>Home</div></a>
+<a href="/refer" class="nav-item"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div>Invite</div></a>
+<a href="/ads" class="nav-item"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div><div>Task</div></a>
+<a href="/profile" class="nav-item"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div>Profile</div></a>
+<a href="/vip" class="nav-item vip active"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg></div><div>VIP</div></a>
+</div>
+
+<script src="/toast.js"></script>
+<script>
+var user = JSON.parse(localStorage.getItem('user') || '{}');
+if (!localStorage.getItem('token')) window.location.href = '/login';
+
+var levels = [
+  { name: 'Bronze', emoji: '🥉', req: 5 },
+  { name: 'Silver', emoji: '🥈', req: 10 },
+  { name: 'Gold', emoji: '🥇', req: 20 },
+  { name: 'Platinum', emoji: '💎', req: 30 },
+  { name: 'Diamond', emoji: '👑', req: 50 },
+  { name: 'Elite', emoji: '🔥', req: 100 },
+  { name: 'Legend', emoji: '⭐', req: 200 }
+];
+
+var donationCount = user.donationCount || 0;
+var currentLevel = user.badge && user.badge.level !== 'None' ? user.badge.level : 'VIP 00';
+var currentLevelIndex = -1;
+levels.forEach(function(l, i) {
+  if (l.name === currentLevel) currentLevelIndex = i;
+});
+
+document.getElementById('vipLevel').textContent = currentLevel;
+document.getElementById('donationCount').textContent = donationCount;
+
+// Next level calculation
+var nextIndex = currentLevelIndex + 1;
+if (nextIndex < levels.length) {
+  var nextLevel = levels[nextIndex];
+  var currentReq = currentLevelIndex >= 0 ? levels[currentLevelIndex].req : 0;
+  var needed = nextLevel.req - donationCount;
+  document.getElementById('progressCount').textContent = donationCount + ' / ' + nextLevel.req;
+  var percent = Math.min((donationCount / nextLevel.req) * 100, 100);
+  document.getElementById('progressFill').style.width = percent + '%';
+  document.getElementById('progressHint').textContent = needed + ' more donation' + (needed > 1 ? 's' : '') + ' to unlock ' + nextLevel.name;
+} else {
+  document.getElementById('progressCount').textContent = 'MAX';
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('progressHint').textContent = 'Maximum level reached!';
+}
+
+if (donationCount > 0) {
+  document.getElementById('vipSub').textContent = 'Keep donating to level up!';
+}
+
+// Render levels list
+var listEl = document.getElementById('levelsList');
+levels.forEach(function(l, i) {
+  var isCurrent = (l.name === currentLevel);
+  var isLocked = (!isCurrent && donationCount < l.req);
+  var cls = 'level-item';
+  if (isCurrent) cls += ' current';
+  else if (isLocked) cls += ' locked';
+
+  var status = isCurrent ? 'Current' : (isLocked ? 'Locked' : 'Unlocked');
+  if (!isLocked && !isCurrent) status = '✓ Done';
+
+  listEl.innerHTML += '<div class="' + cls + '">' +
+    '<div class="level-left">' +
+      '<div class="level-badge"><span>' + l.emoji + '</span></div>' +
+      '<div><div class="level-name">' + l.name + '</div><div class="level-req">' + l.req + ' donations required</div></div>' +
+    '</div>' +
+    '<div class="level-status">' + status + '</div>' +
+  '</div>';
+});
+</script>
+</body>
+</html>

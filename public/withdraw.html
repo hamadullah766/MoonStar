@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Withdraw - MoonStar</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+html,body{background:linear-gradient(135deg,#8FA8C0 0%,#A8BDD1 50%,#8FA8C0 100%);min-height:100vh}
+body{color:#1E293B;padding-bottom:130px}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.9);padding:14px 22px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(30,41,59,0.05)}
+.header-logo-circle{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#DC2626,#991B1B);display:flex;align-items:center;justify-content:center}
+.header-logo-circle svg{width:22px;height:22px}
+.header-logo{font-size:20px;font-weight:900;color:#0F2847}
+.container{padding:20px;max-width:520px;margin:0 auto}
+.balance-card{background:linear-gradient(135deg,#DC2626,#991B1B);border-radius:24px;padding:28px 24px;margin-bottom:16px;color:white;text-align:center}
+.balance-label{font-size:10px;color:rgba(255,255,255,0.8);letter-spacing:2px;font-weight:800;text-transform:uppercase;margin-bottom:8px}
+.balance-amount{font-size:48px;font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:8px}
+.balance-amount span{font-size:22px;font-weight:700;margin-right:4px;opacity:0.9}
+.balance-info{font-size:12px;color:rgba(255,255,255,0.8);font-weight:500}
+.form-card{background:#FFFFFF;border:1.5px solid rgba(255,255,255,0.9);border-radius:18px;padding:22px;margin-bottom:14px;box-shadow:0 10px 30px rgba(30,41,59,0.08)}
+.card-title{font-size:11px;font-weight:800;color:#64748B;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px}
+.method-selector{display:flex;align-items:center;gap:14px;background:#F8FAFC;border:1.5px solid #E2E8F0;border-radius:14px;padding:14px 16px;cursor:pointer;margin-bottom:16px}
+.method-selector.selected{background:#FEF2F2;border-color:#DC2626}
+.method-selector-icon{width:44px;height:44px;border-radius:12px;background:#FFFFFF;border:1px solid #E2E8F0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:6px}
+.method-selector-icon img{width:100%;height:100%;object-fit:contain}
+.method-selector-icon svg{width:20px;height:20px;stroke:#94A3B8;fill:none}
+.method-selector-info{flex:1}
+.method-selector-label{font-size:10px;color:#94A3B8;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px}
+.method-selector-name{font-size:15px;font-weight:800;color:#0F2847}
+.method-selector.selected .method-selector-name{color:#DC2626}
+.method-selector-arrow svg{width:20px;height:20px;stroke:#94A3B8;fill:none}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:11px;color:#64748B;margin-bottom:8px;font-weight:800;letter-spacing:0.5px;text-transform:uppercase}
+.field input{width:100%;padding:14px 16px;background:#F8FAFC;border:1.5px solid #E2E8F0;border-radius:12px;color:#0F2847;font-size:14px;outline:none;font-family:'Inter',sans-serif;font-weight:600}
+.field input:focus{border-color:#DC2626;background:#FFFFFF;box-shadow:0 0 0 4px rgba(220,38,38,0.1)}
+.field input::placeholder{color:#94A3B8}
+.quick-amounts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.quick-btn{padding:10px;background:#F8FAFC;border:1.5px solid #E2E8F0;border-radius:10px;font-size:12px;font-weight:800;color:#0F2847;cursor:pointer;font-family:'Inter',sans-serif}
+.quick-btn.active{background:#DC2626;border-color:#DC2626;color:white}
+.info-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px}
+.info-mini{background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;padding:10px;text-align:center}
+.info-mini .mini-val{font-size:14px;font-weight:900;color:#DC2626;line-height:1;margin-bottom:4px}
+.info-mini .mini-lbl{font-size:9px;color:#991B1B;font-weight:700;text-transform:uppercase}
+.submit-btn{width:100%;padding:16px;background:linear-gradient(135deg,#DC2626,#B91C1C);color:white;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px}
+.submit-btn:disabled{opacity:0.6}
+.submit-btn svg{width:18px;height:18px}
+.history-card{background:#FFFFFF;border:1.5px solid rgba(255,255,255,0.9);border-radius:18px;padding:20px;box-shadow:0 10px 30px rgba(30,41,59,0.08)}
+.history-empty{text-align:center;padding:20px;color:#94A3B8;font-size:13px;font-weight:500}
+.history-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #F1F5F9}
+.history-item:last-child{border-bottom:none;padding-bottom:0}
+.history-item:first-child{padding-top:0}
+.h-left{display:flex;align-items:center;gap:10px}
+.h-icon{width:36px;height:36px;border-radius:10px;background:#FEE2E2;border:1px solid #FECACA;display:flex;align-items:center;justify-content:center}
+.h-icon svg{width:16px;height:16px;stroke:#DC2626;fill:none;stroke-width:2}
+.h-method{font-size:13px;font-weight:800;color:#0F2847}
+.h-date{font-size:10px;color:#94A3B8;font-weight:500;margin-top:2px}
+.h-amount{font-size:14px;font-weight:900;color:#DC2626;text-align:right}
+.h-status{font-size:10px;font-weight:800;text-transform:uppercase;margin-top:2px}
+.h-status.pending{color:#D97706}
+.h-status.approved{color:#059669}
+.h-status.rejected{color:#DC2626}
+.method-modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,0.6);backdrop-filter:blur(6px);display:none;align-items:flex-end;justify-content:center;z-index:1000}
+.method-modal-overlay.show{display:flex}
+.method-modal{background:#FFFFFF;border-radius:24px 24px 0 0;padding:24px 20px 30px;width:100%;max-width:520px;box-shadow:0 -20px 60px rgba(0,0,0,0.3)}
+.method-modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.method-modal-title{font-size:18px;font-weight:900;color:#0F2847}
+.method-modal-close{width:32px;height:32px;border-radius:10px;background:#F1F5F9;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.method-modal-close svg{width:16px;height:16px;stroke:#64748B;fill:none;stroke-width:2.5}
+.method-modal-subtitle{font-size:12px;color:#64748B;margin-bottom:18px;font-weight:500}
+.method-list{display:flex;flex-direction:column;gap:10px}
+.method-list-item{display:flex;align-items:center;gap:14px;padding:14px 16px;background:#F8FAFC;border:1.5px solid #E2E8F0;border-radius:14px;cursor:pointer;transition:all 0.3s}
+.method-list-item.selected{border-color:#DC2626;background:#FEF2F2}
+.method-logo{width:44px;height:44px;border-radius:12px;background:#FFFFFF;border:1px solid #E2E8F0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:6px;flex-shrink:0}
+.method-logo img{width:100%;height:100%;object-fit:contain}
+.method-logo-text{font-size:15px;font-weight:900;color:#0F2847;flex:1}
+.method-check{width:24px;height:24px;border-radius:50%;border:2px solid #E2E8F0;display:flex;align-items:center;justify-content:center}
+.method-list-item.selected .method-check{background:#DC2626;border-color:#DC2626}
+.method-check svg{width:14px;height:14px;stroke:#FFFFFF;fill:none;stroke-width:3;opacity:0}
+.method-list-item.selected .method-check svg{opacity:1}
+.bottom-nav{position:fixed;bottom:16px;left:16px;right:16px;background:#FFFFFF;border:1.5px solid rgba(255,255,255,0.9);border-radius:24px;display:flex;justify-content:space-around;align-items:center;padding:10px 8px;box-shadow:0 20px 50px rgba(30,41,59,0.2);z-index:200}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:5px;color:#94A3B8;text-decoration:none;font-size:10px;font-weight:700;padding:4px 8px;flex:1;max-width:72px}
+.nav-item.active{color:#DC2626}
+.nav-icon-wrap{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.nav-icon-wrap svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2}
+.nav-item.active .nav-icon-wrap{background:#FEE2E2;border:1px solid #FECACA}
+.nav-item.vip .nav-icon-wrap{background:linear-gradient(135deg,#DC2626,#991B1B);border-radius:50%;color:#FFFFFF}
+.nav-item.vip .nav-icon-wrap svg{fill:currentColor;stroke:none}
+</style>
+</head>
+<body>
+<div class="header">
+<div class="header-logo-circle">
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<path d="M55 20 A32 32 0 1 0 55 80 A25 25 0 1 1 55 20 Z" fill="#FFFFFF"/>
+<polygon points="65,32 69,45 82,45 72,53 75,66 65,58 55,66 58,53 48,45 61,45" fill="#FFFFFF"/>
+</svg>
+</div>
+<div class="header-logo">MoonStar</div>
+</div>
+
+<div class="container">
+<div class="balance-card">
+<div class="balance-label">Available Balance</div>
+<div class="balance-amount"><span>Rs</span><span id="balance">0</span></div>
+<div class="balance-info">Min: 200 PKR · Max: 5000 PKR</div>
+</div>
+
+<div class="form-card">
+<div class="card-title">Payment Method</div>
+<div class="method-selector" id="methodSelector" onclick="openMethodModal()">
+<div class="method-selector-icon" id="selectedMethodIcon">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+</div>
+<div class="method-selector-info">
+<div class="method-selector-label">Selected Method</div>
+<div class="method-selector-name" id="selectedMethodName">Choose Payment Method</div>
+</div>
+<div class="method-selector-arrow">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+</div>
+</div>
+
+<div class="field">
+<label>Account Holder Name</label>
+<input type="text" id="accountName" placeholder="Enter full name">
+</div>
+
+<div class="field">
+<label>Account / IBAN Number</label>
+<input type="text" id="accountNumber" placeholder="03XXXXXXXXX or IBAN">
+</div>
+
+<div class="field">
+<label>Amount (PKR)</label>
+<div class="quick-amounts">
+<button class="quick-btn" onclick="setAmount(200, event)">200</button>
+<button class="quick-btn" onclick="setAmount(500, event)">500</button>
+<button class="quick-btn" onclick="setAmount(1000, event)">1000</button>
+</div>
+<input type="number" id="amount" placeholder="Enter amount (min 200)">
+</div>
+
+<div class="info-grid">
+<div class="info-mini"><div class="mini-val">200</div><div class="mini-lbl">Min</div></div>
+<div class="info-mini"><div class="mini-val">5000</div><div class="mini-lbl">Max</div></div>
+<div class="info-mini"><div class="mini-val">2</div><div class="mini-lbl">Per Day</div></div>
+</div>
+
+<button class="submit-btn" id="submitBtn" onclick="submitWithdraw()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+Request Withdraw
+</button>
+</div>
+
+<div class="history-card">
+<div class="card-title">Withdrawal History</div>
+<div id="historyList"><div class="history-empty">No withdrawals yet</div></div>
+</div>
+</div>
+<button class="method-modal-close" onclick="closeMethodModal()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+</div>
+<div class="method-modal-subtitle">Choose how you want to receive your money</div>
+<div class="method-list">
+
+<div class="method-list-item" data-method="JazzCash" onclick="selectMethodItem(this)">
+<div class="method-logo" style="background:#C8102E;"><span style="color:white;font-size:20px;font-weight:900;">J</span></div>
+<div class="method-logo-text">JazzCash</div>
+<div class="method-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+</div>
+
+<div class="method-list-item" data-method="EasyPaisa" onclick="selectMethodItem(this)">
+<div class="method-logo" style="background:#43B02A;"><span style="color:white;font-size:20px;font-weight:900;">E</span></div>
+<div class="method-logo-text">EasyPaisa</div>
+<div class="method-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+</div>
+
+<div class="method-list-item" data-method="SadaPay" onclick="selectMethodItem(this)">
+<div class="method-logo" style="background:#01B0A5;"><span style="color:white;font-size:20px;font-weight:900;">S</span></div>
+<div class="method-logo-text">SadaPay</div>
+<div class="method-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+</div>
+
+<div class="method-list-item" data-method="NayaPay" onclick="selectMethodItem(this)">
+<div class="method-logo" style="background:#5B2C87;"><span style="color:white;font-size:20px;font-weight:900;">N</span></div>
+<div class="method-logo-text">NayaPay</div>
+<div class="method-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+</div>
+
+</div>
+</div>
+</div>
+<div class="method-modal-overlay" id="methodModal" onclick="if(event.target===this)closeMethodModal()">
+<div class="method-modal">
+<div class="method-modal-header">
+<div class="method-modal-title">Select Payment Method</div>
+<button class="method-modal-close" onclick="closeMethodModal()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+</div>
+<div class="method-modal-subtitle">Choose how you want to receive your money</div>
+<div class="method-list">
+<div class="method-list-item" data-method="JazzCash" onclick="selectMethodItem(this)">
+<div class="method-logo" style="background:#C8102E;"><span style="color:white;font-size:20px;font-weight:900;">J</span></div>
+<div class="method-logo-text">JazzCash</div>
+<div class="method-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+</div>
+<div class="method-list-item" data-method="EasyPaisa" onclick="selectMethodItem(this)">
+<div class="method-logo" style="background:#43B02A;"><span style="color:white;font-size:20px;font-weight:900;">E</span></div>
+<div class="method-logo-text">EasyPaisa</div>
+<div class="method-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+</div>
+<div class="method-list-item" data-method="SadaPay" onclick="selectMethodItem(this)">
+<div class="method-logo" style="background:#01B0A5;"><span style="color:white;font-size:20px;font-weight:900;">S</span></div>
+<div class="method-logo-text">SadaPay</div>
+<div class="method-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+</div>
+<div class="method-list-item" data-method="NayaPay" onclick="selectMethodItem(this)">
+<div class="method-logo" style="background:#5B2C87;"><span style="color:white;font-size:20px;font-weight:900;">N</span></div>
+<div class="method-logo-text">NayaPay</div>
+<div class="method-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="bottom-nav">
+<a href="/dashboard" class="nav-item"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div>Home</div></a>
+<a href="/refer" class="nav-item"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div>Invite</div></a>
+<a href="/ads" class="nav-item"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div><div>Task</div></a>
+<a href="/profile" class="nav-item"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div>Profile</div></a>
+<a href="/vip" class="nav-item vip"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg></div><div>VIP</div></a>
+</div>
+<script src="/toast.js"></script>
+<script>
+var user = JSON.parse(localStorage.getItem('user') || '{}');
+if (!localStorage.getItem('token')) window.location.href = '/login';
+var selectedMethod = '';
+document.getElementById('balance').textContent = user.balance || 0;
+
+function openMethodModal() { document.getElementById('methodModal').classList.add('show'); }
+function closeMethodModal() { document.getElementById('methodModal').classList.remove('show'); }
+
+function selectMethodItem(el) {
+  document.querySelectorAll('.method-list-item').forEach(function(o) { o.classList.remove('selected'); });
+  el.classList.add('selected');
+  selectedMethod = el.getAttribute('data-method');
+  document.getElementById('methodSelector').classList.add('selected');
+  document.getElementById('selectedMethodName').textContent = selectedMethod;
+  var img = el.querySelector('.method-logo img');
+  var logoEl = el.querySelector('.method-logo');var bgColor = logoEl.style.background;var letter = selectedMethod.charAt(0);document.getElementById('selectedMethodIcon').innerHTML = '<div style="width:100%;height:100%;background:' + bgColor + ';display:flex;align-items:center;justify-content:center;"><span style="color:white;font-size:20px;font-weight:900;">' + letter + '</span></div>';
+  setTimeout(closeMethodModal, 200);
+}
+
+function setAmount(amt, ev) {
+  document.getElementById('amount').value = amt;
+  document.querySelectorAll('.quick-btn').forEach(function(b) { b.classList.remove('active'); });
+  if (ev && ev.target) ev.target.classList.add('active');
+}
+
+function submitWithdraw() {
+  var accountName = document.getElementById('accountName').value.trim();
+  var accountNumber = document.getElementById('accountNumber').value.trim();
+  var amount = parseInt(document.getElementById('amount').value);
+
+  if (!selectedMethod) { showToast('Please select a payment method', 'error'); return; }
+  if (!accountName || accountName.length < 2) { showToast('Please enter account holder name', 'error'); return; }
+  if (!accountNumber || accountNumber.length < 8) { showToast('Please enter valid account number', 'error'); return; }
+  if (!amount || amount < 200) { showToast('Minimum withdrawal is 200 PKR', 'error'); return; }
+  if (amount > 5000) { showToast('Maximum withdrawal is 5000 PKR', 'error'); return; }
+  if (amount > (user.balance || 0)) { showToast('Insufficient balance', 'error'); return; }
+
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  fetch('/api/withdrawals', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      userId: user.id,
+      userName: user.fullName,
+      userEmail: user.email,
+      method: selectedMethod,
+      accountName: accountName,
+      accountNumber: accountNumber,
+      amount: amount
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(result) {
+    if (result.success) {
+      user.balance = (user.balance || 0) - amount;
+      localStorage.setItem('user', JSON.stringify(user));
+      document.getElementById('balance').textContent = user.balance;
+      
+      // Sync balance to server
+      fetch('/api/users/' + user.id + '/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ balance: user.balance })
+      });
+      
+      showToast('Withdrawal request submitted!', 'success');
+      
+      document.getElementById('accountName').value = '';
+      document.getElementById('accountNumber').value = '';
+      document.getElementById('amount').value = '';
+      document.querySelectorAll('.method-list-item').forEach(function(o) { o.classList.remove('selected'); });
+      document.querySelectorAll('.quick-btn').forEach(function(b) { b.classList.remove('active'); });
+      selectedMethod = '';
+      document.getElementById('methodSelector').classList.remove('selected');
+      document.getElementById('selectedMethodName').textContent = 'Choose Payment Method';
+      document.getElementById('selectedMethodIcon').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>';
+      
+      renderHistory();
+    } else {
+      showToast(result.message || 'Failed', 'error');
+    }
+    btn.disabled = false;
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg> Request Withdraw';
+  })
+  .catch(function(e) {
+    showToast('Network error: ' + e.message, 'error');
+    btn.disabled = false;
+    btn.innerHTML = 'Request Withdraw';
+  });
+}
+
+function renderHistory() {
+  fetch('/api/withdrawals')
+    .then(function(r) { return r.json(); })
+    .then(function(all) {
+      var mine = all.filter(function(w) { return String(w.userId) === String(user.id); }).reverse();
+      var listEl = document.getElementById('historyList');
+      if (mine.length === 0) {
+        listEl.innerHTML = '<div class="history-empty">No withdrawals yet</div>';
+        return;
+      }
+      listEl.innerHTML = '';
+      mine.forEach(function(w) {
+        var date = new Date(w.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+        var st = w.status.charAt(0).toUpperCase() + w.status.slice(1);
+        listEl.innerHTML += '<div class="history-item"><div class="h-left"><div class="h-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div><div><div class="h-method">' + w.method + '</div><div class="h-date">' + date + '</div></div></div><div><div class="h-amount">-Rs ' + w.amount + '</div><div class="h-status ' + w.status + '">' + st + '</div></div></div>';
+      });
+    })
+    .catch(function(e) { console.log('History error:', e); });
+}
+renderHistory();
+</script>
+<script src="/sync.js"></script>
+</body>
+</html>

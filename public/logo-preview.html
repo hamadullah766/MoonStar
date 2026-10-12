@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logo Preview - MoonStar</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+body {
+  background: linear-gradient(135deg, #8FA8C0 0%, #A8BDD1 50%, #8FA8C0 100%);
+  min-height: 100vh; display: flex; align-items: center;
+  justify-content: center; padding: 20px; color: #1E293B;
+}
+.container {
+  background: #FFFFFF; border-radius: 28px; padding: 40px;
+  box-shadow: 0 30px 80px rgba(30, 41, 59, 0.2);
+  text-align: center; max-width: 500px;
+}
+h1 { font-size: 18px; font-weight: 800; color: #0F2847; margin-bottom: 30px; }
+h2 { font-size: 12px; font-weight: 700; color: #64748B; margin: 20px 0 12px; letter-spacing: 1px; text-transform: uppercase; }
+.logo-row {
+  display: flex; justify-content: center; align-items: center;
+  gap: 12px; padding: 16px; background: #F8FAFC;
+  border-radius: 16px; margin-bottom: 12px;
+}
+.logo-circle {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: linear-gradient(135deg, #DC2626, #991B1B);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+  position: relative; flex-shrink: 0;
+}
+.logo-circle svg { width: 30px; height: 30px; }
+.logo-brand { font-size: 24px; font-weight: 900; color: #0F2847; letter-spacing: -1px; }
+.size-sm .logo-circle { width: 36px; height: 36px; }
+.size-sm .logo-circle svg { width: 22px; height: 22px; }
+.size-sm .logo-brand { font-size: 18px; }
+.big-logo {
+  width: 100px; height: 100px; border-radius: 50%;
+  background: linear-gradient(135deg, #DC2626, #991B1B);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px; box-shadow: 0 20px 50px rgba(220, 38, 38, 0.35);
+}
+.big-logo svg { width: 60px; height: 60px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>MoonStar Logo Preview</h1>
+  <h2>Large (Landing)</h2>
+  <div class="big-logo">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <path d="M55 20 A32 32 0 1 0 55 80 A25 25 0 1 1 55 20 Z" fill="#FFFFFF"/>
+      <polygon points="65,32 69,45 82,45 72,53 75,66 65,58 55,66 58,53 48,45 61,45" fill="#FFFFFF"/>
+    </svg>
+  </div>
+  <h2>Medium (Header)</h2>
+  <div class="logo-row">
+    <div class="logo-circle">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M55 20 A32 32 0 1 0 55 80 A25 25 0 1 1 55 20 Z" fill="#FFFFFF"/>
+        <polygon points="65,32 69,45 82,45 72,53 75,66 65,58 55,66 58,53 48,45 61,45" fill="#FFFFFF"/>
+      </svg>
+    </div>
+    <div class="logo-brand">MoonStar</div>
+  </div>
+  <h2>Small (Mobile)</h2>
+  <div class="logo-row size-sm">
+    <div class="logo-circle">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M55 20 A32 32 0 1 0 55 80 A25 25 0 1 1 55 20 Z" fill="#FFFFFF"/>
+        <polygon points="65,32 69,45 82,45 72,53 75,66 65,58 55,66 58,53 48,45 61,45" fill="#FFFFFF"/>
+      </svg>
+    </div>
+    <div class="logo-brand">MoonStar</div>
+  </div>
+</div>
+</body>
+</html>

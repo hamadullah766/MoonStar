@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile - MoonStar</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+body{background:linear-gradient(135deg,#8FA8C0 0%,#A8BDD1 50%,#8FA8C0 100%);min-height:100vh;color:#1E293B;padding:20px 20px 130px}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:40px 40px;z-index:0;pointer-events:none}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.9);padding:14px 22px;display:flex;align-items:center;gap:10px;margin:-20px -20px 20px;box-shadow:0 4px 20px rgba(30,41,59,0.05)}
+.header-logo-circle{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#DC2626,#991B1B);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 15px rgba(220,38,38,0.3)}
+.header-logo-circle svg{width:22px;height:22px}
+.header-logo{font-size:20px;font-weight:900;color:#0F2847}
+.container{position:relative;z-index:1;max-width:520px;margin:0 auto}
+.profile-card{background:linear-gradient(135deg,#DC2626 0%,#991B1B 100%);border-radius:24px;padding:28px 24px;margin-bottom:16px;position:relative;overflow:hidden;box-shadow:0 20px 50px rgba(220,38,38,0.3);color:white;text-align:center}
+.avatar-wrap{position:relative;width:96px;height:96px;margin:0 auto 14px;z-index:1}
+.profile-pic-large{width:96px;height:96px;border-radius:50%;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:38px;color:#DC2626;border:4px solid rgba(255,255,255,0.3);box-shadow:0 15px 35px rgba(0,0,0,0.2);overflow:hidden;background-size:cover;background-position:center}
+.camera-btn{position:absolute;bottom:0;right:0;width:32px;height:32px;border-radius:50%;background:#FFFFFF;border:2px solid #DC2626;display:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+.camera-btn svg{width:16px;height:16px;stroke:#DC2626;fill:none;stroke-width:2.5}
+.camera-btn.show{display:flex}
+.profile-name{font-size:22px;font-weight:900;margin-bottom:4px;position:relative;z-index:1}
+.profile-email{font-size:12px;color:rgba(255,255,255,0.8);font-weight:500;position:relative;z-index:1}
+.vip-pill{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);border-radius:50px;font-size:10px;font-weight:800;color:white;letter-spacing:1px;margin-top:14px;position:relative;z-index:1;text-transform:uppercase}
+.vip-pill svg{width:12px;height:12px}
+.upload-photo-btn{width:100%;padding:16px;background:#FFFFFF;color:#DC2626;border:2px solid #FFFFFF;border-radius:16px;font-size:13px;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:18px;position:relative;z-index:1;box-shadow:0 10px 30px rgba(0,0,0,0.2)}
+.upload-photo-btn svg{width:18px;height:18px}
+.info-card{background:#FFFFFF;border-radius:18px;padding:20px;margin-bottom:14px;box-shadow:0 10px 30px rgba(30,41,59,0.08)}
+.card-title{font-size:11px;font-weight:800;color:#64748B;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #F1F5F9}
+.info-row:last-child{border-bottom:none;padding-bottom:0}
+.info-row:first-child{padding-top:0}
+.info-left{display:flex;align-items:center;gap:10px}
+.info-icon{width:32px;height:32px;border-radius:10px;background:#FEE2E2;border:1px solid #FECACA;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.info-icon svg{width:15px;height:15px;stroke:#DC2626;fill:none;stroke-width:2}
+.info-label{font-size:12px;color:#64748B;font-weight:600}
+.info-value{font-size:13px;font-weight:800;color:#0F2847;text-align:right;max-width:55%;word-break:break-all}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.stat-card{background:#FFFFFF;border-radius:18px;padding:18px;text-align:center;box-shadow:0 10px 30px rgba(30,41,59,0.08)}
+.stat-icon{width:40px;height:40px;border-radius:12px;background:#FEE2E2;border:1px solid #FECACA;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.stat-icon svg{width:18px;height:18px;stroke:#DC2626;fill:none;stroke-width:2}
+.stat-value{font-size:24px;font-weight:900;color:#0F2847;line-height:1;margin-bottom:4px}
+.stat-label{font-size:10px;color:#64748B;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.logout-btn{width:100%;padding:15px;background:#FFFFFF;border:1.5px solid #FECACA;border-radius:16px;color:#DC2626;font-size:14px;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 10px 30px rgba(30,41,59,0.08)}
+.logout-btn svg{width:16px;height:16px}
+.bottom-nav{position:fixed;bottom:16px;left:16px;right:16px;background:#FFFFFF;border:1.5px solid rgba(255,255,255,0.9);border-radius:24px;display:flex;justify-content:space-around;align-items:center;padding:10px 8px;box-shadow:0 20px 50px rgba(30,41,59,0.2);z-index:200}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:5px;color:#94A3B8;text-decoration:none;font-size:10px;font-weight:700;padding:4px 8px;flex:1;max-width:72px}
+.nav-item.active{color:#DC2626}
+.nav-icon-wrap{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.nav-icon-wrap svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2}
+.nav-item.active .nav-icon-wrap{background:#FEE2E2;border:1px solid #FECACA}
+.nav-item.vip .nav-icon-wrap{background:linear-gradient(135deg,#DC2626,#991B1B);border-radius:50%;color:#FFFFFF}
+.nav-item.vip .nav-icon-wrap svg{fill:currentColor;stroke:none}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,0.85);display:none;align-items:center;justify-content:center;padding:16px;z-index:1000}
+.modal.show{display:flex}
+.modal-box{background:#FFF;border-radius:20px;padding:22px;width:100%;max-width:420px;max-height:90vh;overflow-y:auto}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.modal-title{font-size:18px;font-weight:900;color:#0F2847}
+.modal-close{width:32px;height:32px;border-radius:10px;background:#F1F5F9;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.modal-close svg{width:16px;height:16px;stroke:#64748B;fill:none;stroke-width:2.5}
+.modal-subtitle{font-size:12px;color:#64748B;margin-bottom:18px}
+.price-box{background:linear-gradient(135deg,#DC2626,#991B1B);border-radius:16px;padding:18px;margin-bottom:18px;color:white;text-align:center}
+.price-label{font-size:10px;color:rgba(255,255,255,0.8);letter-spacing:2px;font-weight:800;text-transform:uppercase;margin-bottom:4px}
+.price-value{font-size:30px;font-weight:900;line-height:1}
+.payment-info{background:#FEF2F2;border:1.5px solid #FECACA;border-radius:14px;padding:16px;margin-bottom:16px}
+.payment-info .lbl{font-size:10px;color:#B91C1C;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+.payment-row{display:flex;justify-content:space-between;padding:8px 0;font-size:13px}
+.payment-row:not(:last-child){border-bottom:1px dashed #FECACA}
+.payment-row .key{color:#64748B;font-weight:600}
+.payment-row .val{color:#0F2847;font-weight:800;font-family:'Courier New',monospace}
+.iban-copy{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.copy-btn{width:32px;height:32px;border-radius:9px;background:#DC2626;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.copy-btn svg{width:14px;height:14px;stroke:#FFF;fill:none;stroke-width:2.5}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11px;color:#64748B;margin-bottom:6px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px}
+.field input{width:100%;padding:13px 15px;background:#F8FAFC;border:1.5px solid #E2E8F0;border-radius:12px;color:#0F2847;font-size:14px;outline:none;font-family:'Inter',sans-serif;font-weight:600}
+.field input:focus{border-color:#DC2626;background:#FFF}
+.modal-btn{width:100%;padding:14px;background:linear-gradient(135deg,#DC2626,#B91C1C);color:white;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;margin-top:6px}
+.modal-btn:disabled{opacity:0.6;cursor:not-allowed}
+</style>
+<script src="/toast.js"></script>
+</head>
+<body>
+<div class="header">
+<div class="header-logo-circle"><svg viewBox="0 0 100 100"><path d="M55 20 A32 32 0 1 0 55 80 A25 25 0 1 1 55 20 Z" fill="#FFF"/><polygon points="65,32 69,45 82,45 72,53 75,66 65,58 55,66 58,53 48,45 61,45" fill="#FFF"/></svg></div>
+<div class="header-logo">MoonStar</div>
+</div>
+
+<div class="container">
+
+<div class="profile-card">
+<div class="avatar-wrap">
+<div class="profile-pic-large" id="profilePicLarge">U</div>
+<button class="camera-btn" id="cameraBtn" onclick="openPhotoUpload()">
+<svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+</button>
+</div>
+<div class="profile-name" id="fullName">User</div>
+<div class="profile-email" id="email">user@gmail.com</div>
+<div class="vip-pill" id="vipPill">
+<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+VIP 00
+</div>
+<button class="upload-photo-btn" id="uploadPhotoBtn" onclick="openPhotoPayment()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+Upload Photo — PKR 100
+</button>
+</div>
+
+<div class="info-card">
+<div class="card-title">Account Info</div>
+<div class="info-row">
+<div class="info-left"><div class="info-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div class="info-label">Phone</div></div>
+<div class="info-value" id="phone">-</div>
+</div>
+<div class="info-row">
+<div class="info-left"><div class="info-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div class="info-label">Referral Code</div></div>
+<div class="info-value" id="refCode">-</div>
+</div>
+<div class="info-row">
+<div class="info-left"><div class="info-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="info-label">Member Since</div></div>
+<div class="info-value" id="joined">-</div>
+</div>
+</div>
+
+<div class="info-card">
+<div class="card-title">Account Security</div>
+<div class="info-row" onclick="window.location.href='/change-password'" style="cursor:pointer">
+<div class="info-left"><div class="info-icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div class="info-label">Change Password</div></div>
+<div class="info-value">→</div>
+</div>
+<div class="info-row">
+<div class="info-left"><div class="info-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="info-label">Account Status</div></div>
+<div class="info-value" style="color:#059669">Secure</div>
+</div>
+</div>
+
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+<div class="stat-value" id="balance">0</div>
+<div class="stat-label">Balance PKR</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+<div class="stat-value" id="adsTotal">0</div>
+<div class="stat-label">Total Ads</div>
+</div>
+</div>
+
+<button class="logout-btn" onclick="logout()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+Sign Out
+</button>
+</div>
+
+<div class="modal" id="paymentModal">
+<div class="modal-box">
+<div class="modal-header">
+<div class="modal-title">Unlock Photo Upload</div>
+<button class="modal-close" onclick="closeModal('paymentModal')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+</div>
+<div class="modal-subtitle">Pay once and upload your photo forever</div>
+<div class="price-box">
+<div class="price-label">One-Time Fee</div>
+<div class="price-value">PKR 100</div>
+</div>
+<div class="payment-info">
+<div class="lbl">Send Payment To</div>
+<div class="payment-row"><span class="key">Account Name</span><span class="val">Qudratullah</span></div>
+<div class="payment-row iban-copy">
+<div style="flex:1"><span class="key" style="display:block;font-size:10px;margin-bottom:4px">IBAN</span><span class="val" style="font-size:11px;word-break:break-all">PK46SADA0000003022581469</span></div>
+<button class="copy-btn" onclick="copyIBAN()"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+</div>
+</div>
+<div class="field"><label>Sender Name</label><input type="text" id="senderName" placeholder="Your name"></div>
+<div class="field"><label>Sender Number</label><input type="tel" id="senderNumber" placeholder="03XXXXXXXXX" maxlength="11"></div>
+<div class="field"><label>Payment Screenshot</label><input type="file" id="screenshotInput" accept="image/*" style="padding:10px"></div>
+<button class="modal-btn" onclick="submitPhotoPayment()">Submit Request</button>
+</div>
+</div>
+
+<div class="modal" id="photoModal">
+<div class="modal-box">
+<div class="modal-header">
+<div class="modal-title">Upload Profile Photo</div>
+<button class="modal-close" onclick="closeModal('photoModal')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+</div>
+<div class="modal-subtitle">Choose a photo from your gallery</div>
+<input type="file" id="photoInput" accept="image/*" style="display:none" onchange="onPhotoSelect(event)">
+<button class="modal-btn" onclick="document.getElementById('photoInput').click()" style="margin-bottom:10px">📁 Choose from Gallery</button>
+<div id="photoPreviewWrap" style="display:none;text-align:center;margin-bottom:14px">
+<img id="photoPreviewImg" style="max-width:120px;max-height:120px;border-radius:12px;border:2px solid #86EFAC">
+</div>
+<button class="modal-btn" id="savePhotoBtn" onclick="savePhoto()" disabled>Save Photo</button>
+</div>
+</div>
+
+<div class="bottom-nav">
+<a href="/dashboard" class="nav-item"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div>Home</div></a>
+<a href="/refer" class="nav-item"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div>Invite</div></a>
+<a href="/ads" class="nav-item"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><div>Task</div></a>
+<a href="/profile" class="nav-item active"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div>Profile</div></a>
+<a href="/vip" class="nav-item vip"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg></div><div>VIP</div></a>
+</div>
+
+<script>
+var user = JSON.parse(localStorage.getItem('user') || '{}');
+if (!user.id) { window.location.href = '/login'; }
+
+// Sync from server
+fetch('/api/users/' + user.id).then(function(r){ return r.json(); }).then(function(fresh){
+  if (fresh && fresh.id) {
+    user = fresh;
+    localStorage.setItem('user', JSON.stringify(fresh));
+    renderProfile();
+  }
+}).catch(function(e){ console.log('Sync error', e); });
+
+function renderProfile() {
+  document.getElementById('fullName').textContent = user.fullName || 'User';
+  document.getElementById('email').textContent = user.email || '-';
+  document.getElementById('phone').textContent = user.phone || '-';
+  document.getElementById('refCode').textContent = user.referralCode || '-';
+  document.getElementById('balance').textContent = user.balance || 0;
+  document.getElementById('adsTotal').textContent = user.adsCompleted || 0;
+  var badge = user.badge && user.badge.level ? user.badge.level : 'VIP 00';
+  document.getElementById('vipPill').innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg> ' + badge;
+  if (user.createdAt) document.getElementById('joined').textContent = new Date(user.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  
+  var picEl = document.getElementById('profilePicLarge');
+  var camBtn = document.getElementById('cameraBtn');
+  var upBtn = document.getElementById('uploadPhotoBtn');
+  
+  if (user.profilePic) {
+    picEl.textContent = '';
+    picEl.style.backgroundImage = 'url(' + user.profilePic + ')';
+    camBtn.classList.add('show');
+    upBtn.style.display = 'none';
+  } else if (user.photoUnlocked) {
+    picEl.textContent = (user.fullName || 'U').charAt(0).toUpperCase();
+    camBtn.classList.add('show');
+    upBtn.style.display = 'none';
+  } else {
+    picEl.textContent = (user.fullName || 'U').charAt(0).toUpperCase();
+    camBtn.classList.remove('show');
+    upBtn.style.display = 'flex';
+  }
+}
+
+function openModal(id) { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+function openPhotoPayment() { openModal('paymentModal'); }
+function openPhotoUpload() { openModal('photoModal'); }
+
+function copyIBAN() {
+  var iban = 'PK46SADA0000003022581469';
+  var el = document.createElement('textarea');
+  el.value = iban;
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+  alert('IBAN Copied: ' + iban);
+}
+
+function submitPhotoPayment() {
+  var name = document.getElementById('senderName').value.trim();
+  var number = document.getElementById('senderNumber').value.trim();
+  var file = document.getElementById('screenshotInput').files[0];
+  
+  if (!name) { showToast('Enter sender name', 'error'); return; }
+  if (!/^03\d{9}$/.test(number)) { showToast('Invalid number (03XXXXXXXXX)', 'error'); return; }
+  if (!file) { showToast('Upload payment screenshot', 'error'); return; }
+  
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var request = {
+      id: Date.now().toString(36),
+      userId: user.id,
+      userName: user.fullName,
+      senderName: name,
+      senderNumber: number,
+      screenshot: e.target.result,
+      status: 'pending',
+      createdAt: new Date().toISOString()
+    };
+    
+    fetch('/api/photos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(request)
+    }).then(function(r) { return r.json(); }).then(function() {
+      showToast('Request submitted! Admin will verify soon.', 'success');
+      setTimeout(function() { closeModal('paymentModal'); }, 1500);
+    }).catch(function() {
+      showToast('Error submitting. Try again.', 'error');
+    });
+  };
+  reader.readAsDataURL(file);
+}
+
+function onPhotoSelect(e) {var file = e.target.files[0];if (!file) return;if (file.size > 2*1024*1024) { showToast('Photo must be under 2MB', 'info'); return; }var reader = new FileReader();reader.onload = function(ev) {document.getElementById('photoPreviewImg').src = ev.target.result;document.getElementById('photoPreviewWrap').style.display = 'block';document.getElementById('savePhotoBtn').disabled = false;};reader.readAsDataURL(file);}
+function savePhoto() {
+  var preview = document.getElementById('photoPreviewImg').src;
+  if (!preview) { showToast('Select a photo first', 'error'); return; }
+  
+  var btn = document.getElementById('savePhotoBtn');
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
+  
+  user.profilePic = preview;
+  localStorage.setItem('user', JSON.stringify(user));
+  
+  fetch('/api/users/' + user.id + '/update', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ profilePic: preview })
+  }).then(function(r) { return r.json(); }).then(function(res) {
+    showToast('Photo uploaded successfully!', 'success');
+    setTimeout(function() {
+      closeModal('photoModal');
+      renderProfile();
+      btn.disabled = false;
+      btn.textContent = 'Save Photo';
+    }, 1000);
+  }).catch(function(e) {
+    showToast('Photo saved locally', 'success');
+    setTimeout(function() {
+      closeModal('photoModal');
+      renderProfile();
+      btn.disabled = false;
+      btn.textContent = 'Save Photo';
+    }, 1000);
+  });
+}
+
+renderProfile();
+</script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Account - MoonStar</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+body {
+  background: linear-gradient(135deg, #8FA8C0 0%, #A8BDD1 50%, #8FA8C0 100%);
+  min-height: 100vh; display: flex; align-items: center;
+  justify-content: center; padding: 20px; color: #1E293B;
+  position: relative;
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px; z-index: 0; pointer-events: none;
+}
+.container {
+  position: relative; z-index: 1; width: 100%; max-width: 440px;
+  background: #FFFFFF; border-radius: 28px; padding: 40px 32px;
+  box-shadow: 0 30px 80px rgba(30, 41, 59, 0.2);
+  animation: cardEnter 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes cardEnter { from { opacity: 0; transform: translateY(30px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.logo-wrap { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 8px; }
+.logo-circle {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: linear-gradient(135deg, #DC2626, #991B1B);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 10px 25px rgba(220, 38, 38, 0.3);
+}
+.logo-circle svg { width: 28px; height: 28px; }
+.logo { font-size: 30px; font-weight: 900; letter-spacing: -1px; color: #0F2847; }
+.subtitle { text-align: center; color: #64748B; font-size: 13px; margin-bottom: 32px; font-weight: 500; }
+.field { margin-bottom: 16px; }
+.field label { display: block; font-size: 11px; color: #64748B; margin-bottom: 8px; font-weight: 700; letter-spacing: 0.5px; }
+.field input {
+  width: 100%; padding: 14px 16px; background: #F8FAFC;
+  border: 1.5px solid #E2E8F0; border-radius: 12px; color: #0F2847;
+  font-size: 14px; outline: none; transition: all 0.25s;
+  font-family: 'Inter', sans-serif; font-weight: 500;
+}
+.field input:focus { border-color: #DC2626; background: #FFFFFF; box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1); }
+.field input::placeholder { color: #94A3B8; }
+.phone-wrap { display: flex; gap: 10px; }
+.phone-prefix {
+  padding: 14px 16px; background: #FEE2E2; border: 1.5px solid #FECACA;
+  border-radius: 12px; color: #B91C1C; font-size: 14px; font-weight: 800;
+  white-space: nowrap; display: flex; align-items: center;
+}
+.phone-wrap input { flex: 1; }
+.btn {
+  width: 100%; padding: 16px; background: linear-gradient(135deg, #DC2626, #B91C1C);
+  color: white; border: none; border-radius: 12px; font-size: 15px;
+  font-weight: 700; cursor: pointer; margin-top: 12px; transition: all 0.3s;
+  box-shadow: 0 12px 30px rgba(220, 38, 38, 0.3);
+  font-family: 'Inter', sans-serif; letter-spacing: 0.3px;
+}
+.btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 18px 45px rgba(220, 38, 38, 0.45); }
+.btn:active:not(:disabled) { transform: translateY(0) scale(0.98); }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.link-text { text-align: center; margin-top: 22px; font-size: 13px; color: #64748B; }
+.link-text a { color: #DC2626; text-decoration: none; font-weight: 700; }
+.terms { text-align: center; font-size: 11px; color: #94A3B8; margin-top: 18px; line-height: 1.6; }
+.referral-box { background: #FEE2E2; border: 1px solid #FECACA; border-radius: 12px; padding: 14px 18px; margin-bottom: 16px; display: none; }
+.referral-box.show { display: block; }
+.referral-box-label { font-size: 11px; color: #B91C1C; margin-bottom: 6px; font-weight: 700; letter-spacing: 0.5px; }
+.referral-box-code { font-size: 18px; font-weight: 800; color: #991B1B; letter-spacing: 2px; font-family: 'Courier New', monospace; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="logo-wrap">
+    <div class="logo-circle">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M55 20 A32 32 0 1 0 55 80 A25 25 0 1 1 55 20 Z" fill="#FFFFFF"/>
+        <polygon points="65,32 69,45 82,45 72,53 75,66 65,58 55,66 58,53 48,45 61,45" fill="#FFFFFF"/>
+      </svg>
+    </div>
+    <div class="logo">MoonStar</div>
+  </div>
+  <div class="subtitle">Create your account to get started</div>
+
+  <form id="signupForm">
+    <div class="field">
+      <label>FULL NAME</label>
+      <input type="text" id="fullName" placeholder="Enter your full name" required>
+    </div>
+    <div class="field">
+      <label>PHONE NUMBER</label>
+      <div class="phone-wrap">
+        <div class="phone-prefix">+92</div>
+        <input type="tel" id="phone" placeholder="3XXXXXXXXX" maxlength="10" required>
+      </div>
+    </div>
+    <div class="field">
+      <label>EMAIL ADDRESS</label>
+      <input type="email" id="email" placeholder="yourname@gmail.com" required>
+    </div>
+    <div class="field">
+      <label>PASSWORD</label>
+      <input type="password" id="password" placeholder="Minimum 6 characters" required>
+    </div>
+    <div class="referral-box" id="referralBox">
+      <div class="referral-box-label">REFERRED BY</div>
+      <div class="referral-box-code" id="referralCodeDisplay">NX000000</div>
+    </div>
+    <input type="hidden" id="inviteCode" value="">
+    <button type="submit" class="btn" id="submitBtn">Create Account</button>
+  </form>
+  <div class="link-text">Already have an account? <a href="/login">Sign in</a></div>
+  <div class="terms">By signing up you agree to MoonStar Terms & Privacy Policy</div>
+</div>
+
+<script src="/toast.js"></script>
+<script>
+const form = document.getElementById('signupForm');
+const btn = document.getElementById('submitBtn');
+const referralBox = document.getElementById('referralBox');
+const referralCodeDisplay = document.getElementById('referralCodeDisplay');
+const inviteCodeInput = document.getElementById('inviteCode');
+
+const urlParams = new URLSearchParams(window.location.search);
+const refFromUrl = urlParams.get('ref');
+if (refFromUrl && refFromUrl.trim() !== '') {
+  referralBox.classList.add('show');
+  referralCodeDisplay.textContent = refFromUrl.trim().toUpperCase();
+  inviteCodeInput.value = refFromUrl.trim().toUpperCase();
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  btn.disabled = true;
+  btn.textContent = 'Creating account...';
+  const phoneInput = document.getElementById('phone').value.trim().replace(/^0+/, '');
+  const email = document.getElementById('email').value.trim().toLowerCase();
+  const password = document.getElementById('password').value;
+  const fullName = document.getElementById('fullName').value.trim();
+
+  if (fullName.length < 2) { showToast('Please enter your full name', 'error'); btn.disabled = false; btn.textContent = 'Create Account'; return; }
+  if (!/^3\d{9}$/.test(phoneInput)) { showToast('Invalid Pakistani phone. Use: 3XXXXXXXXX', 'error'); btn.disabled = false; btn.textContent = 'Create Account'; return; }
+  if (!email.endsWith('@gmail.com')) { showToast('Only Gmail (@gmail.com) is accepted', 'error'); btn.disabled = false; btn.textContent = 'Create Account'; return; }
+  if (password.length < 6) { showToast('Password must be at least 6 characters', 'error'); btn.disabled = false; btn.textContent = 'Create Account'; return; }
+
+  try {
+    const res = await fetch('/api/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fullName, phone: '+92' + phoneInput, email, password, inviteCode: inviteCodeInput.value || '' })
+    });
+    const result = await res.json();
+    if (result.success) {
+      showToast('Account created successfully!', 'success');
+      localStorage.setItem('token', result.token);
+      localStorage.setItem('user', JSON.stringify(result.user));
+      setTimeout(() => window.location.href = '/dashboard', 1500);
+    } else {
+      showToast(result.message, 'error');
+      btn.disabled = false; btn.textContent = 'Create Account';
+    }
+  } catch (err) {
+    showToast('Server connection error', 'error');
+    btn.disabled = false; btn.textContent = 'Create Account';
+  }
+});
+</script>
+</body>
+</html>

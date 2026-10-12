@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - MoonStar</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+html,body{background:linear-gradient(135deg,#8FA8C0 0%,#A8BDD1 50%,#8FA8C0 100%);min-height:100vh}
+body{color:#1E293B;padding-bottom:130px}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:40px 40px;z-index:0;pointer-events:none}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.9);padding:14px 22px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 20px rgba(30,41,59,0.05)}
+.header-left{display:flex;align-items:center;gap:10px}
+.header-logo-circle{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#DC2626,#991B1B);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 15px rgba(220,38,38,0.3)}
+.header-logo-circle svg{width:22px;height:22px}
+.header-logo{font-size:20px;font-weight:900;color:#0F2847;letter-spacing:-0.8px}
+.header-right{display:flex;align-items:center;gap:8px}
+.donate-btn-header{padding:8px 14px;border-radius:50px;background:linear-gradient(135deg,#DC2626,#991B1B);border:none;display:flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 6px 15px rgba(220,38,38,0.3);font-family:'Inter',sans-serif;font-size:12px;font-weight:800;color:#FFFFFF}
+.donate-btn-header svg{width:14px;height:14px;stroke:#FFFFFF;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.profile-pic{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#DC2626,#991B1B);display:flex;align-items:center;justify-content:center;font-weight:800;color:white;font-size:14px;border:2px solid #FFFFFF;box-shadow:0 6px 15px rgba(220,38,38,0.25);cursor:pointer}
+.container{position:relative;z-index:1;padding:20px;max-width:520px;margin:0 auto}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.animate-in{animation:fadeSlideUp 0.6s cubic-bezier(0.16,1,0.3,1) both}
+.a1{animation-delay:0.05s}.a2{animation-delay:0.15s}.a3{animation-delay:0.25s}.a4{animation-delay:0.35s}
+.balance-card{background:linear-gradient(135deg,#DC2626 0%,#991B1B 100%);border-radius:24px;padding:26px;margin-bottom:16px;position:relative;overflow:hidden;box-shadow:0 20px 50px rgba(220,38,38,0.3);color:white}
+.balance-card::before{content:'';position:absolute;top:-60%;right:-20%;width:250px;height:250px;background:radial-gradient(circle,rgba(255,255,255,0.2) 0%,transparent 70%);border-radius:50%}
+.balance-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;position:relative;z-index:1}
+.balance-label{font-size:10px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,0.8);display:flex;align-items:center;gap:6px;text-transform:uppercase}
+.balance-label svg{width:14px;height:14px}
+.vip-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);border-radius:50px;font-size:10px;font-weight:800;color:white;letter-spacing:0.5px}
+.vip-badge svg{width:11px;height:11px}
+.balance-amount{font-size:50px;font-weight:900;margin-bottom:6px;position:relative;z-index:1;letter-spacing:-2px;line-height:1}
+.balance-amount .currency{font-size:20px;font-weight:700;margin-right:4px;opacity:0.9}
+.balance-sub{font-size:12px;color:rgba(255,255,255,0.8);margin-bottom:22px;position:relative;z-index:1;font-weight:500}
+.withdraw-btn{width:100%;padding:15px;background:#FFFFFF;color:#DC2626;border:none;border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;position:relative;z-index:1;box-shadow:0 10px 25px rgba(0,0,0,0.15)}
+.withdraw-btn svg{width:16px;height:16px}
+.invite-card{background:#FFFFFF;border:1.5px solid #FECACA;border-radius:22px;padding:22px;margin-bottom:16px;position:relative;overflow:hidden;cursor:pointer;box-shadow:0 15px 40px rgba(30,41,59,0.1)}
+.invite-card::before{content:'';position:absolute;top:-30%;right:-15%;width:160px;height:160px;background:radial-gradient(circle,rgba(220,38,38,0.08) 0%,transparent 70%);border-radius:50%}
+.invite-content{position:relative;z-index:2;max-width:70%}
+.invite-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:#FEE2E2;border:1px solid #FECACA;border-radius:50px;font-size:9px;font-weight:800;color:#B91C1C;letter-spacing:1px;margin-bottom:12px;text-transform:uppercase}
+.invite-badge svg{width:11px;height:11px;stroke:#DC2626}
+.invite-title{font-size:22px;font-weight:900;margin-bottom:6px;letter-spacing:-0.5px;line-height:1.15;color:#0F2847}
+.invite-title .amount{color:#DC2626}
+.invite-sub{font-size:12px;color:#64748B;margin-bottom:16px;font-weight:500;line-height:1.4}
+.invite-btn{padding:11px 22px;background:linear-gradient(135deg,#DC2626,#B91C1C);color:white;border:none;border-radius:50px;font-size:12px;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:6px}
+.invite-btn svg{width:13px;height:13px;stroke-width:2.5}
+.invite-gift-svg{position:absolute;top:50%;right:10px;transform:translateY(-50%);width:90px;height:90px;opacity:0.15;z-index:1}
+.invite-gift-svg svg{width:100%;height:100%;stroke:#DC2626;fill:none;stroke-width:1.5}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.stat-card{background:#FFFFFF;border:1.5px solid rgba(255,255,255,0.9);border-radius:18px;padding:20px 18px;box-shadow:0 10px 30px rgba(30,41,59,0.08)}
+.stat-icon{width:40px;height:40px;border-radius:12px;background:#FEE2E2;border:1px solid #FECACA;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.stat-icon svg{width:18px;height:18px;stroke:#DC2626;fill:none;stroke-width:2}
+.stat-value{font-size:30px;font-weight:900;color:#0F2847;letter-spacing:-1px;line-height:1;margin-bottom:6px}
+.stat-label{font-size:10px;color:#64748B;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.logout-btn{width:100%;padding:15px;background:#FFFFFF;border:1.5px solid #FECACA;border-radius:16px;color:#DC2626;font-size:14px;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 10px 30px rgba(30,41,59,0.08)}
+.logout-btn svg{width:16px;height:16px}
+.bottom-nav{position:fixed;bottom:16px;left:16px;right:16px;background:#FFFFFF;border:1.5px solid rgba(255,255,255,0.9);border-radius:24px;display:flex;justify-content:space-around;align-items:center;padding:10px 8px;box-shadow:0 20px 50px rgba(30,41,59,0.2);z-index:200}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:5px;color:#94A3B8;text-decoration:none;font-size:10px;font-weight:700;padding:4px 8px;flex:1;max-width:72px}
+.nav-item.active{color:#DC2626}
+.nav-icon-wrap{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.nav-icon-wrap svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2}
+.nav-item.active .nav-icon-wrap{background:#FEE2E2;border:1px solid #FECACA}
+.nav-item.vip .nav-icon-wrap{background:linear-gradient(135deg,#DC2626,#991B1B);border-radius:50%;color:#FFFFFF}
+.nav-item.vip .nav-icon-wrap svg{fill:currentColor;stroke:none}
+.live-card{background:#FFF;border-radius:18px;padding:20px;margin-bottom:14px;box-shadow:0 10px 30px rgba(30,41,59,0.08)}.live-card .card-title{font-size:11px;font-weight:800;color:#64748B;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:6px}.live-dot{width:8px;height:8px;background:#10B981;border-radius:50%;animation:pulse 1.5s infinite;margin-left:auto}.live-list{display:flex;flex-direction:column;gap:10px}.live-item{display:flex;align-items:center;gap:12px;padding:12px;background:#F8FAFC;border-radius:12px;border:1.5px solid #F1F5F9}.live-num{width:28px;height:28px;border-radius:50%;background:#FEE2E2;color:#DC2626;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;flex-shrink:0}.live-item:nth-child(1) .live-num{width:28px;height:28px;border-radius:50%;background:#FEE2E2;color:#DC2626;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;flex-shrink:0}.live-item:nth-child(2) .live-num{width:28px;height:28px;border-radius:50%;background:#FEE2E2;color:#DC2626;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;flex-shrink:0}.live-item:nth-child(3) .live-num{width:28px;height:28px;border-radius:50%;background:#FEE2E2;color:#DC2626;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;flex-shrink:0}.live-info{flex:1;min-width:0}.live-email{font-size:12px;font-weight:800;color:#0F2847;margin-bottom:2px}.live-status{font-size:10px;color:#10B981;font-weight:700}.live-amount{font-size:14px;font-weight:900;color:#DC2626;flex-shrink:0}.live-empty{text-align:center;padding:20px;color:#94A3B8;font-size:12px;font-weight:500}@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}</style>
+</head>
+<body>
+<div class="header">
+<div class="header-left">
+<div class="header-logo-circle"><svg viewBox="0 0 100 100"><path d="M55 20 A32 32 0 1 0 55 80 A25 25 0 1 1 55 20 Z" fill="#FFF"/><polygon points="65,32 69,45 82,45 72,53 75,66 65,58 55,66 58,53 48,45 61,45" fill="#FFF"/></svg></div>
+<div class="header-logo">MoonStar</div>
+</div>
+<div class="header-right">
+<button class="donate-btn-header" onclick="window.location.href='/donate'">
+<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+Donate
+</button>
+<div class="profile-pic" id="profilePic" onclick="window.location.href='/profile'">U</div>
+</div>
+</div>
+
+<div class="container">
+<div class="balance-card animate-in a1">
+<div class="balance-top">
+<div class="balance-label">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+Total Balance
+</div>
+<div class="vip-badge" id="vipBadge">
+<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+VIP 00
+</div>
+</div>
+<div class="balance-amount"><span class="currency">Rs</span><span id="balance">0</span></div>
+<div class="balance-sub" id="balanceSub">Start earning today</div>
+<button class="withdraw-btn" onclick="window.location.href='/withdraw'">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+Withdraw Funds
+</button>
+</div>
+
+<div class="invite-card animate-in a2" onclick="window.location.href='/refer'">
+<div class="invite-content">
+<div class="invite-badge">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+Refer & Earn
+</div>
+<div class="invite-title">Earn <span class="amount">5 PKR</span><br>per friend</div>
+<div class="invite-sub">Invite friends and earn when they complete 20 ads</div>
+<button class="invite-btn">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+Invite Now
+</button>
+</div>
+<div class="invite-gift-svg">
+<svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+</div>
+</div>
+
+<div class="stats-grid animate-in a3">
+<div class="stat-card">
+<div class="stat-icon"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+<div class="stat-value" id="adsToday">0</div>
+<div class="stat-label">Ads Today</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+<div class="stat-value" id="adsTotal">0</div>
+<div class="stat-label">Total Ads</div>
+</div>
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="live-card">
+<div class="card-title">
+<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#DC2626;fill:none;stroke-width:2.5;display:inline;vertical-align:middle;margin-right:6px"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+Live Withdrawals
+<span class="live-dot"></span>
+</div>
+<div id="liveList" class="live-list">
+<div class="live-empty">Loading...</div>
+</div>
+</div>
+
+<div class="bottom-nav">
+<a href="/dashboard" class="nav-item active"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div>Home</div></a>
+<a href="/refer" class="nav-item"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div>Invite</div></a>
+<a href="/ads" class="nav-item"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><div>Task</div></a>
+<a href="/profile" class="nav-item"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div>Profile</div></a>
+<a href="/vip" class="nav-item vip"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg></div><div>VIP</div></a>
+</div>
+
+<script>
+var user = {};
+
+async function loadUser() {
+  var stored = localStorage.getItem('user');
+  if (!stored) { window.location.href = '/login'; return; }
+  user = JSON.parse(stored);
+  updateUI(user);
+  
+  try {
+    var res = await fetch('/api/users/' + user.id);
+    var fresh = await res.json();
+    if (fresh && fresh.id) {
+      user = fresh;
+      localStorage.setItem('user', JSON.stringify(fresh));
+      updateUI(fresh);
+    }
+  } catch(e) { console.log('Server error'); }
+}
+
+function updateUI(u) {
+  document.getElementById('balance').textContent = u.balance || 0;
+  document.getElementById('adsTotal').textContent = u.adsCompleted || 0;
+  document.getElementById('adsToday').textContent = u.adsToday || 0;
+  var picEl = document.getElementById('profilePic');
+  if (u.profilePic) {
+    picEl.textContent = '';
+    picEl.style.backgroundImage = 'url(' + u.profilePic + ')';
+    picEl.style.backgroundSize = 'cover';
+    picEl.style.backgroundPosition = 'center';
+  } else {
+    picEl.textContent = (u.fullName || 'U').charAt(0).toUpperCase();
+  }
+  
+  var badgeLevel = u.badge && u.badge.level !== 'None' ? u.badge.level : 'VIP 00';
+  document.getElementById('vipBadge').innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg> ' + badgeLevel;
+  
+  if (u.balance > 0) document.getElementById('balanceSub').textContent = 'Available to withdraw';
+}
+
+function logout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  window.location.href = '/login';
+}
+
+loadUser();
+
+
+
+
+
+
+
+function maskEmail(email) {
+  if (!email) return 'User';
+  var parts = email.split('@');
+  var name = parts[0];
+  var domain = parts[1] || '';
+  if (name.length <= 3) return name + '***@' + domain;
+  var masked = name.substring(0, 4) + '*******' + name.slice(-1) + '@' + domain;
+  return masked;
+}
+
+async function loadLiveWithdrawals() {
+  try {
+    var res = await fetch('/api/withdrawals');
+    var withdrawals = await res.json();
+    
+    var approved = withdrawals.filter(function(w) { return w.status === 'approved'; });
+    approved.sort(function(a, b) { return new Date(b.createdAt) - new Date(a.createdAt); });
+    
+    var el = document.getElementById('liveList');
+    if (!el) return;
+    
+    if (approved.length === 0) {
+      el.innerHTML = '<div class="live-empty">No withdrawals yet</div>';
+      return;
+    }
+    
+    el.innerHTML = '';
+    approved.forEach(function(w, i) {
+      var num = i + 1;
+      var email = w.userEmail || (w.userName ? w.userName.toLowerCase().replace(/\s/g, '') + '@gmail.com' : 'user@gmail.com');
+      var masked = maskEmail(email);
+      var amount = w.amount || 0;
+      
+      el.innerHTML += '<div class="live-item">' +
+        '<div class="live-num">' + num + '</div>' +
+        '<div class="live-info">' +
+        '<div class="live-email">' + masked + '</div>' +
+        '<div class="live-status">✓ Withdraw Approved</div>' +
+        '</div>' +
+        '<div class="live-amount">Rs ' + amount + '</div>' +
+        '</div>';
+    });
+  } catch(e) {
+    console.log('Live error:', e);
+    var el = document.getElementById('liveList');
+    if (el) el.innerHTML = '<div class="live-empty">No data</div>';
+  }
+}
+
+loadLiveWithdrawals();
+setInterval(loadLiveWithdrawals, 5000);
+</script>
+</body>
+</html>

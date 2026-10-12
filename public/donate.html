@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donate - MoonStar</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+html,body{background:linear-gradient(135deg,#8FA8C0 0%,#A8BDD1 50%,#8FA8C0 100%);min-height:100vh}
+body{color:#1E293B;padding-bottom:130px;position:relative;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:40px 40px;z-index:0;pointer-events:none}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.9);padding:14px 22px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 20px rgba(30,41,59,0.05)}
+.header-left{display:flex;align-items:center;gap:10px}
+.header-logo-circle{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#DC2626,#991B1B);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 15px rgba(220,38,38,0.3)}
+.header-logo-circle svg{width:22px;height:22px}
+.header-logo{font-size:20px;font-weight:900;color:#0F2847;letter-spacing:-0.8px}
+.container{position:relative;z-index:1;padding:20px;max-width:520px;margin:0 auto}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.animate-in{animation:fadeSlideUp 0.6s cubic-bezier(0.16,1,0.3,1) both}
+.a1{animation-delay:0.05s}.a2{animation-delay:0.15s}.a3{animation-delay:0.25s}.a4{animation-delay:0.35s}
+.hero-card{background:linear-gradient(135deg,#DC2626 0%,#991B1B 100%);border-radius:24px;padding:28px 24px;margin-bottom:16px;position:relative;overflow:hidden;box-shadow:0 20px 50px rgba(220,38,38,0.3);color:white;text-align:center}
+.hero-card::before{content:'';position:absolute;top:-60%;right:-20%;width:250px;height:250px;background:radial-gradient(circle,rgba(255,255,255,0.2) 0%,transparent 70%);border-radius:50%}
+.hero-icon{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;position:relative;z-index:1}
+.hero-icon svg{width:36px;height:36px;stroke:#FFFFFF;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hero-title{font-size:24px;font-weight:900;margin-bottom:6px;position:relative;z-index:1;letter-spacing:-0.8px}
+.hero-sub{font-size:13px;color:rgba(255,255,255,0.85);font-weight:500;position:relative;z-index:1;line-height:1.5}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);border-radius:50px;font-size:11px;font-weight:800;color:white;letter-spacing:1px;margin-top:16px;position:relative;z-index:1;text-transform:uppercase}
+.hero-badge svg{width:13px;height:13px;fill:#FFFFFF}
+.payment-card{background:#FFFFFF;border:1.5px solid #FECACA;border-radius:18px;padding:22px;margin-bottom:16px;box-shadow:0 10px 30px rgba(30,41,59,0.08)}
+.card-title{font-size:11px;font-weight:800;color:#64748B;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px}
+.payment-info{background:#FEF2F2;border:1.5px solid #FECACA;border-radius:14px;padding:16px;margin-bottom:18px}
+.payment-row{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0}
+.payment-row:not(:last-child){border-bottom:1px dashed #FECACA}
+.payment-key{font-size:11px;color:#B91C1C;font-weight:800;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:4px}
+.payment-val{font-size:14px;color:#0F2847;font-weight:800}
+.iban-copy{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.iban-text{font-size:12px;color:#0F2847;font-weight:800;font-family:'Courier New',monospace;word-break:break-all;line-height:1.4}
+.copy-btn{width:36px;height:36px;border-radius:10px;background:#DC2626;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;box-shadow:0 4px 12px rgba(220,38,38,0.3)}
+.copy-btn svg{width:16px;height:16px;stroke:#FFFFFF;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11px;color:#64748B;margin-bottom:8px;font-weight:800;letter-spacing:0.5px;text-transform:uppercase}
+.field input{width:100%;padding:14px 16px;background:#F8FAFC;border:1.5px solid #E2E8F0;border-radius:12px;color:#0F2847;font-size:14px;outline:none;font-family:'Inter',sans-serif;font-weight:600}
+.field input:focus{border-color:#DC2626;background:#FFFFFF;box-shadow:0 0 0 4px rgba(220,38,38,0.1)}
+.field input::placeholder{color:#94A3B8}
+.file-upload{border:2px dashed #FECACA;border-radius:14px;padding:24px 16px;text-align:center;cursor:pointer;background:#FEF2F2;margin-bottom:14px;display:block}
+.file-upload svg{width:32px;height:32px;stroke:#DC2626;fill:none;stroke-width:1.8;margin-bottom:8px}
+.file-upload .txt{font-size:13px;color:#991B1B;font-weight:800}
+.file-upload .sub{font-size:11px;color:#64748B;margin-top:4px;font-weight:500}
+.file-upload input{display:none}
+.file-preview{display:none;margin-bottom:14px;text-align:center}
+.file-preview img{max-width:120px;max-height:120px;border-radius:12px;border:2px solid #86EFAC}
+.file-preview.show{display:block}
+.submit-btn{width:100%;padding:16px;background:linear-gradient(135deg,#DC2626,#B91C1C);color:white;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 10px 25px rgba(220,38,38,0.3);letter-spacing:0.3px;display:flex;align-items:center;justify-content:center;gap:8px}
+.submit-btn:disabled{opacity:0.6;cursor:not-allowed}
+.submit-btn svg{width:18px;height:18px}
+.info-card{background:#FFFFFF;border:1.5px solid rgba(255,255,255,0.9);border-radius:18px;padding:20px;box-shadow:0 10px 30px rgba(30,41,59,0.08)}
+.info-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #F1F5F9}
+.info-row:last-child{border-bottom:none;padding-bottom:0}
+.info-row:first-child{padding-top:0}
+.info-icon{width:36px;height:36px;border-radius:10px;background:#FEE2E2;border:1px solid #FECACA;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.info-icon svg{width:16px;height:16px;stroke:#DC2626;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.info-text{flex:1;font-size:12px;color:#64748B;font-weight:600;line-height:1.5}
+.info-text strong{color:#0F2847;font-weight:800}
+.bottom-nav{position:fixed;bottom:16px;left:16px;right:16px;background:#FFFFFF;border:1.5px solid rgba(255,255,255,0.9);border-radius:24px;display:flex;justify-content:space-around;align-items:center;padding:10px 8px;box-shadow:0 20px 50px rgba(30,41,59,0.2);z-index:200}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:5px;color:#94A3B8;text-decoration:none;font-size:10px;font-weight:700;padding:4px 8px;flex:1;max-width:72px;letter-spacing:0.3px}
+.nav-item.active{color:#DC2626}
+.nav-icon-wrap{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.nav-icon-wrap svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.nav-item.active .nav-icon-wrap{background:#FEE2E2;border:1px solid #FECACA}
+.nav-item.vip .nav-icon-wrap{background:linear-gradient(135deg,#DC2626,#991B1B);border-radius:50%;color:#FFFFFF;box-shadow:0 6px 15px rgba(220,38,38,0.4)}
+.nav-item.vip .nav-icon-wrap svg{fill:currentColor;stroke:none}
+</style>
+</head>
+<body>
+
+<div class="header">
+<div class="header-left">
+<div class="header-logo-circle">
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<path d="M55 20 A32 32 0 1 0 55 80 A25 25 0 1 1 55 20 Z" fill="#FFFFFF"/>
+<polygon points="65,32 69,45 82,45 72,53 75,66 65,58 55,66 58,53 48,45 61,45" fill="#FFFFFF"/>
+</svg>
+</div>
+<div class="header-logo">MoonStar</div>
+</div>
+</div>
+
+<div class="container">
+
+<div class="hero-card animate-in a1">
+<div class="hero-icon">
+<svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+</div>
+<div class="hero-title">Support MoonStar</div>
+<div class="hero-sub">Your donation helps us keep the platform running and improving</div>
+<div class="hero-badge">
+<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+Thank You
+</div>
+</div>
+
+<div class="payment-card animate-in a2">
+<div class="card-title">Send Payment To</div>
+<div class="payment-info">
+<div class="payment-row">
+<div>
+<div class="payment-key">Account Name</div>
+<div class="payment-val">Qudratullah</div>
+</div>
+</div>
+<div class="payment-row">
+<div style="flex:1;min-width:0;">
+<div class="payment-key">IBAN</div>
+<div class="iban-copy">
+<div class="iban-text">PK46SADA0000003022581469</div>
+<button class="copy-btn" onclick="copyIBAN()">
+<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="field">
+<label>Sender Name</label>
+<input type="text" id="senderName" placeholder="Enter your full name">
+</div>
+
+<div class="field">
+<label>Sender Number</label>
+<input type="tel" id="senderNumber" placeholder="03XXXXXXXXX" maxlength="11">
+</div>
+
+<label for="screenshotInput" class="file-upload">
+<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+<div class="txt">Upload Payment Screenshot</div>
+<div class="sub">Tap to select image</div>
+<input type="file" id="screenshotInput" accept="image/*">
+</label>
+
+<div class="file-preview" id="filePreview">
+<img id="previewImg" src="" alt="Preview">
+</div>
+
+<button class="submit-btn" id="submitBtn" onclick="submitDonation()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+Submit Donation
+</button>
+</div>
+
+<div class="info-card animate-in a3">
+<div class="card-title">Why Donate?</div>
+<div class="info-row">
+<div class="info-icon"><svg viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg></div>
+<div class="info-text"><strong>VIP Badge</strong> — Unlock exclusive VIP levels</div>
+</div>
+<div class="info-row">
+<div class="info-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+<div class="info-text"><strong>Server Costs</strong> — Keep MoonStar running 24/7</div>
+</div>
+<div class="info-row">
+<div class="info-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+<div class="info-text"><strong>New Features</strong> — Support future updates</div>
+</div>
+</div>
+
+</div>
+
+<div class="bottom-nav">
+<a href="/dashboard" class="nav-item"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div>Home</div></a>
+<a href="/refer" class="nav-item"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div>Invite</div></a>
+<a href="/ads" class="nav-item"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div><div>Task</div></a>
+<a href="/profile" class="nav-item"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div>Profile</div></a>
+<a href="/vip" class="nav-item vip"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg></div><div>VIP</div></a>
+</div>
+
+<script src="/toast.js"></script>
+<script>
+var user = JSON.parse(localStorage.getItem('user') || '{}');
+if (!localStorage.getItem('token')) window.location.href = '/login';
+
+function copyIBAN() {
+  navigator.clipboard.writeText('PK46SADA0000003022581469');
+  showToast('IBAN copied!', 'success');
+}
+
+document.getElementById('screenshotInput').addEventListener('change', function(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  if (file.size > 3 * 1024 * 1024) { showToast('Screenshot must be under 3MB', 'error'); return; }
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    document.getElementById('previewImg').src = ev.target.result;
+    document.getElementById('filePreview').classList.add('show');
+  };
+  reader.readAsDataURL(file);
+});
+
+function submitDonation() {
+  var senderName = document.getElementById('senderName').value.trim();
+  var senderNumber = document.getElementById('senderNumber').value.trim();
+  var screenshot = document.getElementById('previewImg').src;
+
+  if (!senderName || senderName.length < 2) { showToast('Please enter your name', 'error'); return; }
+  if (!/^03\d{9}$/.test(senderNumber)) { showToast('Invalid number (03XXXXXXXXX)', 'error'); return; }
+  if (!screenshot) { showToast('Please upload payment screenshot', 'error'); return; }
+
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  setTimeout(function() {
+    var donations = JSON.parse(localStorage.getItem('donations') || '[]');
+    donations.push({
+      id: Date.now().toString(36),
+      userId: user.id,
+      userName: user.fullName,
+      senderName: senderName,
+      senderNumber: senderNumber,
+      screenshot: screenshot,
+      status: 'pending',
+      createdAt: new Date().toISOString()
+    });
+    localStorage.setItem('donations', JSON.stringify(donations));
+
+    showToast('Donation submitted! Admin will verify soon.', 'success');
+
+    document.getElementById('senderName').value = '';
+    document.getElementById('senderNumber').value = '';
+    document.getElementById('previewImg').src = '';
+    document.getElementById('filePreview').classList.remove('show');
+
+    btn.disabled = false;
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Submit Donation';
+  }, 1500);
+}
+</script>
+<script src="/sync.js"></script>
+</body>
+</html>
